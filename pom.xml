@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <!-- Project from https://start.vaadin.com/project/0ede51ca-91ab-4485-9bcc-324565e18ade -->
     <groupId>de.flubba.rallye</groupId>
@@ -122,7 +122,6 @@
             <artifactId>vaadin-testbench</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- Include JUnit 4 support for TestBench and others -->
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
@@ -134,17 +133,75 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- Include JUnit 4 support for TestBench and others -->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>5.0.3</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- my dependencies -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.22</version>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <!-- for serializing fields as jsonb -->
+            <groupId>com.vladmihalcea</groupId>
+            <artifactId>hibernate-types-52</artifactId>
+            <version>2.14.1</version>
+        </dependency>
+        <dependency> <!-- for json LocalDate and LocalDateTime serialization in DB -->
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.3.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>in.virit</groupId>
+            <artifactId>viritin</artifactId>
+            <version>1.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
         <plugins>
+            <plugin>
+                <groupId>com.googlecode.maven-properties-enum-plugin</groupId>
+                <artifactId>maven-properties-enum-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+                    <files>i18n.properties</files>
+                    <lineLength>300</lineLength>
+                    <prefixedOnly>false</prefixedOnly>
+                    <generateDirectory>${basedir}/src/main/java</generateDirectory>
+                    <packageName>de.flubba.generated.i18n</packageName><!-- TODO: this is not the right place for this -->
+                    <implement>de.flubba.rallye.i18n.I18nEnum</implement>
+                    <enumJavadoc>&lt;b&gt;%2$s&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;i&gt;%1$s&lt;/i&gt;</enumJavadoc>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

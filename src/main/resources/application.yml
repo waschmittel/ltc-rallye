@@ -1,0 +1,49 @@
+# this profile is used as the default profile for integration environments, as there is no separate *.yml defined
+
+server:
+  shutdown: graceful
+  port: ${PORT:8080}
+
+spring:
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.StdDateFormat
+    deserialization:
+      FAIL_ON_UNKNOWN_PROPERTIES: false
+      ADJUST_DATES_TO_CONTEXT_TIME_ZONE: false
+    serialization:
+      WRITE_BIGDECIMAL_AS_PLAIN: true
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+  mustache:
+    check-template-location: false
+  datasource:
+    url: jdbc:postgresql://localhost:54320/rallye
+    username: rallye
+    password: ltc
+
+vaadin:
+  # Launch the default browser when starting the application in development mode
+  launch-browser: true
+  # To improve the performance during development.
+  # For more information https://vaadin.com/docs/flow/spring/tutorial-spring-configuration.html#special-configuration-parameters
+  whitelisted-packages:
+    - com.vaadin
+    - org.vaadin
+    - dev.hilla
+    - de.flubba.rallye
+
+rallye:
+  shekel-euro-rate: 0.230512
+  min-lap-duration: 20 #TODO: use actual duration
+
+logging:
+  level:
+    net.sf.ehcache.pool.impl.DefaultSizeOfEngine: error # size of settings are correct, but ehcache suggests improvements on warn level
+    org.atmosphere: warn
+    de.flubba: debug
+    #org.apache.http: debug # enable to see restclient debug informations
+    # SQL statements and parameters
+    #org.hibernate.SQL: debug
+    #org.hibernate.type.descriptor.sql: debug

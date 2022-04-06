@@ -1,213 +1,158 @@
 package de.flubba.rallye.views.runners;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.Uses;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
-import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.splitlayout.SplitLayout;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.data.renderer.LitRenderer;
+import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.router.BeforeEnterEvent;
 import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
-import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
-import de.flubba.rallye.data.entity.SamplePerson;
-import de.flubba.rallye.data.service.SamplePersonService;
+import de.flubba.generated.i18n.I18n;
+import de.flubba.rallye.component.ConfirmDialog;
+import de.flubba.rallye.component.EditDeleteButtonsProvider;
+import de.flubba.rallye.component.ErrorDialog;
+import de.flubba.rallye.component.RunnerEditForm;
+import de.flubba.rallye.component.RunnersGrid;
+import de.flubba.rallye.component.SponsorEditForm;
+import de.flubba.rallye.entity.Runner;
+import de.flubba.rallye.entity.Sponsor;
+import de.flubba.rallye.entity.repository.RunnerRepository;
+import de.flubba.rallye.entity.repository.SponsorRepository;
 import de.flubba.rallye.views.MainLayout;
-import java.util.Optional;
-import java.util.UUID;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.text.WordUtils;
+
+import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
+import java.util.LinkedList;
 
 @PageTitle("Runners")
 @Route(value = "runners/:samplePersonID?/:action?(edit)", layout = MainLayout.class)
-@RouteAlias(value = "", layout = MainLayout.class)
+@RouteAlias(value = "", layout = MainLayout.class) //TODO: this is the default route - maybe change this
 @Uses(Icon.class)
-public class RunnersView extends Div implements BeforeEnterObserver {
+@Slf4j
+public class RunnersView extends RunnersViewDesign implements BeforeEnterObserver {
+    private final RunnerRepository runnerRepository;
+    private final SponsorRepository sponsorRepository;
 
-    private final String SAMPLEPERSON_ID = "samplePersonID";
-    private final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "runners/%s/edit";
+    //@Value("${de.flubba.rally.shekel-euro-rate}")
+    private final BigDecimal shekelToEuro = new BigDecimal("0.22"); //TODO: get this from a config class
 
-    private Grid<SamplePerson> grid = new Grid<>(SamplePerson.class, false);
-
-    private TextField firstName;
-    private TextField lastName;
-    private TextField email;
-    private TextField phone;
-    private DatePicker dateOfBirth;
-    private TextField occupation;
-    private Checkbox important;
-
-    private Button cancel = new Button("Cancel");
-    private Button save = new Button("Save");
-
-    private BeanValidationBinder<SamplePerson> binder;
-
-    private SamplePerson samplePerson;
-
-    private final SamplePersonService samplePersonService;
-
-    @Autowired
-    public RunnersView(SamplePersonService samplePersonService) {
-        this.samplePersonService = samplePersonService;
-        addClassNames("runners-view");
-
-        // Create UI
-        SplitLayout splitLayout = new SplitLayout();
-
-        createGridLayout(splitLayout);
-        createEditorLayout(splitLayout);
-
-        add(splitLayout);
-
-        // Configure Grid
-        grid.addColumn("firstName").setAutoWidth(true);
-        grid.addColumn("lastName").setAutoWidth(true);
-        grid.addColumn("email").setAutoWidth(true);
-        grid.addColumn("phone").setAutoWidth(true);
-        grid.addColumn("dateOfBirth").setAutoWidth(true);
-        grid.addColumn("occupation").setAutoWidth(true);
-        LitRenderer<SamplePerson> importantRenderer = LitRenderer.<SamplePerson>of(
-                "<vaadin-icon icon='vaadin:${item.icon}' style='width: var(--lumo-icon-size-s); height: var(--lumo-icon-size-s); color: ${item.color};'></vaadin-icon>")
-                .withProperty("icon", important -> important.isImportant() ? "check" : "minus").withProperty("color",
-                        important -> important.isImportant()
-                                ? "var(--lumo-primary-text-color)"
-                                : "var(--lumo-disabled-text-color)");
-
-        grid.addColumn(importantRenderer).setHeader("Important").setAutoWidth(true);
-
-        grid.setItems(query -> samplePersonService.list(
-                PageRequest.of(query.getPage(), query.getPageSize(), VaadinSpringDataHelpers.toSpringDataSort(query)))
-                .stream());
-        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
-
-        // when a row is selected or deselected, populate form
-        grid.asSingleSelect().addValueChangeListener(event -> {
-            if (event.getValue() != null) {
-                UI.getCurrent().navigate(String.format(SAMPLEPERSON_EDIT_ROUTE_TEMPLATE, event.getValue().getId()));
-            } else {
-                clearForm();
-                UI.getCurrent().navigate(RunnersView.class);
-            }
-        });
-
-        // Configure Form
-        binder = new BeanValidationBinder<>(SamplePerson.class);
-
-        // Bind fields. This is where you'd define e.g. validation rules
-
-        binder.bindInstanceFields(this);
-
-        cancel.addClickListener(e -> {
-            clearForm();
-            refreshGrid();
-        });
-
-        save.addClickListener(e -> {
-            try {
-                if (this.samplePerson == null) {
-                    this.samplePerson = new SamplePerson();
-                }
-                binder.writeBean(this.samplePerson);
-
-                samplePersonService.update(this.samplePerson);
-                clearForm();
-                refreshGrid();
-                Notification.show("SamplePerson details stored.");
-                UI.getCurrent().navigate(RunnersView.class);
-            } catch (ValidationException validationException) {
-                Notification.show("An exception happened while trying to store the samplePerson details.");
-            }
-        });
-
+    public RunnersView(RunnersGrid runnersGrid, RunnerRepository runnerRepository, SponsorRepository sponsorRepository) {
+        super(runnersGrid); //TODO: see if this can be constructed with lombok
+        this.runnerRepository = runnerRepository;
+        this.sponsorRepository = sponsorRepository;
     }
 
-    @Override
-    public void beforeEnter(BeforeEnterEvent event) {
-        Optional<UUID> samplePersonId = event.getRouteParameters().get(SAMPLEPERSON_ID).map(UUID::fromString);
-        if (samplePersonId.isPresent()) {
-            Optional<SamplePerson> samplePersonFromBackend = samplePersonService.get(samplePersonId.get());
-            if (samplePersonFromBackend.isPresent()) {
-                populateForm(samplePersonFromBackend.get());
-            } else {
-                Notification.show(
-                        String.format("The requested samplePerson was not found, ID = %s", samplePersonId.get()), 3000,
-                        Notification.Position.BOTTOM_START);
-                // when a row is selected but the data is no longer available,
-                // refresh grid
-                refreshGrid();
-                event.forwardTo(RunnersView.class);
-            }
+    @SuppressWarnings("squid:S2177") //this is intentional
+    @PostConstruct
+    private void init() {
+        addRunnerButton.addClickListener(event -> editRunner(new Runner()));
+
+        addSponsorButton.addClickListener(event -> {
+            Sponsor newSponsor = new Sponsor();
+            log.info("runner for sponsor: {}", runnersGrid.getSelectedRunner().getId());
+            newSponsor.setRunner(runnersGrid.getSelectedRunner());
+            editSponsor(newSponsor);
+        });
+
+        sponsorsGrid.addComponentColumn(new EditDeleteButtonsProvider<>(this::editSponsor, this::confirmDeleteSponsor)).setResizable(false)
+                .setWidth("120px");
+        runnersGrid.addComponentColumn(new EditDeleteButtonsProvider<>(this::editRunner)).setResizable(false).setWidth("100px");
+
+        refreshButton.addClickListener(e -> runnersGrid.refresh());
+
+        runnersGrid.addRunnerSelectionListener(this::showSponsorsFor);
+    }
+
+    private void showSponsorsFor(Runner runner) {
+        if (runner == null) {
+            addSponsorButton.setEnabled(false);
+            addSponsorButton.setText(I18n.SPONSOR_BUTTON_ADD.get());
+            sponsorsGrid.setDataProvider(new ListDataProvider<>(new LinkedList<>()));
+        } else {
+            addSponsorButton.setEnabled(true);
+            addSponsorButton.setText(I18n.SPONSOR_BUTTON_NAMED_ADD.get(runner.getName()));
+            sponsorsGrid.setDataProvider(new ListDataProvider<>(sponsorRepository.findByRunner(runner)));
         }
     }
 
-    private void createEditorLayout(SplitLayout splitLayout) {
-        Div editorLayoutDiv = new Div();
-        editorLayoutDiv.setClassName("editor-layout");
-
-        Div editorDiv = new Div();
-        editorDiv.setClassName("editor");
-        editorLayoutDiv.add(editorDiv);
-
-        FormLayout formLayout = new FormLayout();
-        firstName = new TextField("First Name");
-        lastName = new TextField("Last Name");
-        email = new TextField("Email");
-        phone = new TextField("Phone");
-        dateOfBirth = new DatePicker("Date Of Birth");
-        occupation = new TextField("Occupation");
-        important = new Checkbox("Important");
-        Component[] fields = new Component[]{firstName, lastName, email, phone, dateOfBirth, occupation, important};
-
-        formLayout.add(fields);
-        editorDiv.add(formLayout);
-        createButtonLayout(editorLayoutDiv);
-
-        splitLayout.addToSecondary(editorLayoutDiv);
+    private void editRunner(Runner runner) {
+        RunnerEditForm runnerEditForm = new RunnerEditForm(runner);
+        runnerEditForm.openInModalPopup();
+        runnerEditForm.setSavedHandler(entity -> {
+            saveRunner(runner);
+            runnerEditForm.closePopup();
+        });
+        runnerEditForm.setResetHandler(editedServer -> {
+            runnersGrid.refresh();
+            runnerEditForm.closePopup();
+        });
     }
 
-    private void createButtonLayout(Div editorLayoutDiv) {
-        HorizontalLayout buttonLayout = new HorizontalLayout();
-        buttonLayout.setClassName("button-layout");
-        cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        buttonLayout.add(save, cancel);
-        editorLayoutDiv.add(buttonLayout);
+    private void saveRunner(Runner runner) {
+        sanitizeRunner(runner);
+        if (runner.getId() == null && runnerRepository.countByName(runner.getName()) > 0) {
+            new ErrorDialog(String.format("Cannot create \"%s\". There is already a runner with this name.", runner.getName()));
+        } else {
+            var savedRunner = runnerRepository.saveAndFlush(runner);
+            runnersGrid.selectRunner(savedRunner);
+        }
     }
 
-    private void createGridLayout(SplitLayout splitLayout) {
-        Div wrapper = new Div();
-        wrapper.setClassName("grid-wrapper");
-        splitLayout.addToPrimary(wrapper);
-        wrapper.add(grid);
+    private void sanitizeRunner(Runner runner) {
+        runner.setName(capitalize(runner.getName().trim()));
+        runner.setRoomNumber(runner.getRoomNumber().trim());
     }
 
-    private void refreshGrid() {
-        grid.select(null);
-        grid.getLazyDataView().refreshAll();
+    private static String capitalize(String string) {
+        return WordUtils.capitalizeFully(string, ' ', '-'); //TODO: replace
     }
 
-    private void clearForm() {
-        populateForm(null);
+
+    private void confirmDeleteSponsor(Sponsor sponsor) {
+        new ConfirmDialog(I18n.SPONSOR_DELETE_QUESTION.get(sponsor.getName()),
+                I18n.SPONSOR_DELETE_CONFIRM.get(),
+                I18n.SPONSOR_DELETE_CANCEL.get(),
+                () -> deleteSponsor(sponsor));
     }
 
-    private void populateForm(SamplePerson value) {
-        this.samplePerson = value;
-        binder.readBean(this.samplePerson);
+    private void deleteSponsor(Sponsor sponsor) {
+        sponsorRepository.delete(sponsor);
+        showSponsorsFor(sponsor.getRunner());
+    }
 
+    private void editSponsor(Sponsor sponsor) {
+        SponsorEditForm sponsorEditForm = new SponsorEditForm(sponsor, shekelToEuro);
+        sponsorEditForm.openInModalPopup();
+        sponsorEditForm.getPopup().setWidth("400px");
+        sponsorEditForm.setSavedHandler(entity -> {
+            saveSponsor(sponsor);
+            sponsorEditForm.closePopup();
+        });
+        sponsorEditForm.setResetHandler(editedServer -> {
+            showSponsorsFor(sponsor.getRunner());
+            sponsorEditForm.closePopup();
+        });
+    }
+
+    private void saveSponsor(Sponsor sponsor) {
+        sanitizeSponsor(sponsor);
+        sponsorRepository.saveAndFlush(sponsor);
+        showSponsorsFor(sponsor.getRunner());
+    }
+
+    private void sanitizeSponsor(Sponsor sponsor) {
+        sponsor.setName(capitalize(sponsor.getName().trim()));
+        sponsor.setStreet(capitalize(sponsor.getStreet().trim()));
+        sponsor.setCity(capitalize(sponsor.getCity().trim()));
+        sponsor.setCountry(capitalize(sponsor.getCountry().trim()));
+    }
+
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+        //TODO: go to the right person?
     }
 }

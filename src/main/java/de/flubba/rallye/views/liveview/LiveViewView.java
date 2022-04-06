@@ -1,6 +1,6 @@
 package de.flubba.rallye.views.liveview;
 
-import com.example.application.views.MainLayout;
+import de.flubba.rallye.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
