@@ -4,6 +4,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.spring.annotation.RouteScope;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import de.flubba.rallye.entity.Runner;
@@ -46,13 +47,12 @@ public class RunnersGrid extends Grid<Runner> {
     private void initSelection() {
         setSelectionMode(SelectionMode.SINGLE);
         addSelectionListener(event -> {
-            if (!event.getFirstSelectedItem().isPresent()) {
-                selectedRunner = null;
-                selectionListeners.forEach(listener -> listener.onSelect(null));
-            }
-            event.getFirstSelectedItem().ifPresent(runner -> {
+            event.getFirstSelectedItem().ifPresentOrElse(runner -> {
                 selectedRunner = runner;
                 selectionListeners.forEach(listener -> listener.onSelect(runner));
+            }, () -> {
+                selectedRunner = null;
+                selectionListeners.forEach(listener -> listener.onSelect(null));
             });
         });
     }
@@ -77,7 +77,10 @@ public class RunnersGrid extends Grid<Runner> {
         HeaderRow runnersHeader = appendHeaderRow();
 
         runnersHeader.getCell(getColumnByKey("name")).setComponent(runnersFilter);
-        runnersFilter.setWidth("100%");
+        runnersFilter.setWidthFull();
+        runnersFilter.setClearButtonVisible(true);
+        runnersFilter.setValueChangeMode(ValueChangeMode.TIMEOUT);
+        runnersFilter.setValueChangeTimeout(1000);
         //TODO: ResetButtonForTextField.extend(runnersFilter);
         runnersFilter.addValueChangeListener(e -> refresh());
 
