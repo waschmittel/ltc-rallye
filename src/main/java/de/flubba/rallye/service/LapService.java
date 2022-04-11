@@ -30,13 +30,13 @@ public class LapService {
 
     private long saveNewLap(Runner runner) throws LapCountingException {
         long currentTime = clock.millis();
-        Lap lap = new Lap();
-        lap.setTime(currentTime);
-        lap.setRunner(runner);
-        var lapDuration = getLapDuration(runner, currentTime);
-        lap.setDuration(lapDuration);
-        lapRepository.saveAndFlush(lap);
-        return lapDuration;
+        var duration = getLapDuration(runner, currentTime);
+        lapRepository.saveAndFlush(Lap.builder()
+                .runner(runner)
+                .time(currentTime)
+                .duration(duration)
+                .build());
+        return duration;
     }
 
     private long getLapDuration(Runner runner, long currentTime) throws LapCountingException {
