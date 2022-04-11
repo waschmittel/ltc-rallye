@@ -2,6 +2,8 @@ package de.flubba.rallye.views.runners;
 
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -9,7 +11,6 @@ import com.vaadin.flow.router.RouteAlias;
 import de.flubba.generated.i18n.I18n;
 import de.flubba.rallye.component.ConfirmDialog;
 import de.flubba.rallye.component.EditDeleteButtonsProvider;
-import de.flubba.rallye.component.ErrorDialog;
 import de.flubba.rallye.component.RunnerEditForm;
 import de.flubba.rallye.component.RunnersGrid;
 import de.flubba.rallye.component.SponsorEditForm;
@@ -24,6 +25,8 @@ import org.apache.commons.text.WordUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.LinkedList;
+
+import static com.vaadin.flow.component.notification.Notification.Position.MIDDLE;
 
 @PageTitle("Runners")
 @Route(value = "runners", layout = MainLayout.class)
@@ -78,9 +81,10 @@ public class RunnersView extends RunnersViewDesign {
         RunnerEditForm runnerEditForm = new RunnerEditForm(runner);
         runnerEditForm.openInModalPopup();
         runnerEditForm.setSavedHandler(entity -> {
-            saveRunner(runner);
-            runnerEditForm.closePopup();
-            addSponsorButton.focus();
+            if (saveRunner(runner)) {
+                runnerEditForm.closePopup();
+                addSponsorButton.focus();
+            }
         });
         runnerEditForm.setResetHandler(editedServer -> {
             runnersGrid.refresh();
@@ -88,13 +92,18 @@ public class RunnersView extends RunnersViewDesign {
         });
     }
 
-    private void saveRunner(Runner runner) {
+    private boolean saveRunner(Runner runner) {
         sanitizeRunner(runner);
-        if (runner.getId() == null && runnerRepository.countByName(runner.getName()) > 0) {
-            new ErrorDialog(String.format("Cannot create \"%s\". There is already a runner with this name.", runner.getName()));
+        if (runner.getId() == null && runnerRepository.existsByName(runner.getName())) {
+            var notification = new Notification(String.format("Cannot create \"%s\". There is already a runner with this name.", runner.getName()), 5000);
+            notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            notification.setPosition(MIDDLE);
+            notification.open();
+            return false;
         } else {
             var savedRunner = runnerRepository.saveAndFlush(runner);
             runnersGrid.selectRunner(savedRunner);
+            return true;
         }
     }
 

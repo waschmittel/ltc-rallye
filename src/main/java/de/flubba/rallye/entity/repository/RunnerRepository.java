@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface RunnerRepository extends JpaRepository<Runner, Long> {
     Optional<Runner> findOneById(Long runnerId);
 
-    Long countByName(String name);
+    boolean existsByName(String name);
 
     @Query("select r from Runner r where lower(r.name) like lower(concat('%', :name,'%'))")
     List<Runner> findByNameIgnoreCaseContaining(String name);
