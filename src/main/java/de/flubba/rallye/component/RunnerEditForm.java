@@ -51,7 +51,7 @@ public class RunnerEditForm extends AbstractForm<Runner> {
     @Override
     protected void bind() {
         getBinder().forField(id)
-                .withConverter(new StringToLongConverter("auto-generated")) //TODO: necessary? is there a number field now?
+                .withConverter(new StringToLongConverter("auto-generated"))
                 .withNullRepresentation(0L)
                 .bind("id");
         getBinder().forField(bonusLaps)
