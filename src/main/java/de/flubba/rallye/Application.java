@@ -7,6 +7,7 @@ import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
@@ -16,6 +17,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * and some desktop browsers.
  */
 @SpringBootApplication
+@ConfigurationPropertiesScan
 @Theme(value = "ltcrallye")
 @PWA(name = "LTC Rallye", shortName = "LTC Rallye", offlineResources = {})
 @NpmPackage(value = "line-awesome", version = "1.3.0")

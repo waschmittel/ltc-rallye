@@ -35,7 +35,7 @@ vaadin:
     - de.flubba.rallye
 
 rallye:
-  shekel-euro-rate: 0.230512
+  shekel-to-euro-rate: 0.230512
   min-lap-duration: 20 #TODO: use actual duration
 
 logging:

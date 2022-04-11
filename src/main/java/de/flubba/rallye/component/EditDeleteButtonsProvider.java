@@ -45,12 +45,8 @@ public class EditDeleteButtonsProvider<E> implements ValueProvider<E, EditDelete
     public EntityButtons apply(E sourceEntity) {
         EntityButtons buttons = new EntityButtons(showEditButtonProvider.showEditButtonFor(sourceEntity),
                 showDeleteButtonProvider.showDeleteButtonFor(sourceEntity));
-        buttons.editButton.addClickListener(event -> {
-            editButtonClickListener.editButtonClick(sourceEntity);
-        });
-        buttons.deleteButton.addClickListener(event -> {
-            deleteButtonClickListener.deleteButtonClick(sourceEntity);
-        });
+        buttons.editButton.addClickListener(event -> editButtonClickListener.editButtonClick(sourceEntity));
+        buttons.deleteButton.addClickListener(event -> deleteButtonClickListener.deleteButtonClick(sourceEntity));
         return buttons;
     }
 

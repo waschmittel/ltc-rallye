@@ -13,6 +13,7 @@ import de.flubba.rallye.component.ErrorDialog;
 import de.flubba.rallye.component.RunnerEditForm;
 import de.flubba.rallye.component.RunnersGrid;
 import de.flubba.rallye.component.SponsorEditForm;
+import de.flubba.rallye.configuration.RallyeProperties;
 import de.flubba.rallye.entity.Runner;
 import de.flubba.rallye.entity.Sponsor;
 import de.flubba.rallye.entity.repository.RunnerRepository;
@@ -22,23 +23,22 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.text.WordUtils;
 
 import javax.annotation.PostConstruct;
-import java.math.BigDecimal;
 import java.util.LinkedList;
 
 @PageTitle("Runners")
 @Route(value = "runners", layout = MainLayout.class)
-@RouteAlias(value = "", layout = MainLayout.class) //TODO: this is the default route - maybe change this
+@RouteAlias(value = "", layout = MainLayout.class)
 @Uses(Icon.class)
 @Slf4j
 public class RunnersView extends RunnersViewDesign {
     private final RunnerRepository runnerRepository;
     private final SponsorRepository sponsorRepository;
 
-    //@Value("${de.flubba.rally.shekel-euro-rate}")
-    private final BigDecimal shekelToEuro = new BigDecimal("0.22"); //TODO: get this from a config class
+    private final RallyeProperties rallyeProperties;
 
-    public RunnersView(RunnersGrid runnersGrid, RunnerRepository runnerRepository, SponsorRepository sponsorRepository) {
+    public RunnersView(RallyeProperties rallyeProperties, RunnersGrid runnersGrid, RunnerRepository runnerRepository, SponsorRepository sponsorRepository) {
         super(runnersGrid); //TODO: see if this can be constructed with lombok
+        this.rallyeProperties = rallyeProperties;
         this.runnerRepository = runnerRepository;
         this.sponsorRepository = sponsorRepository;
     }
@@ -123,7 +123,7 @@ public class RunnersView extends RunnersViewDesign {
     }
 
     private void editSponsor(Sponsor sponsor) {
-        SponsorEditForm sponsorEditForm = new SponsorEditForm(sponsor, shekelToEuro);
+        SponsorEditForm sponsorEditForm = new SponsorEditForm(sponsor, rallyeProperties.getShekelToEuroRate());
         sponsorEditForm.openInModalPopup();
         sponsorEditForm.getPopup().setWidth("400px");
         sponsorEditForm.setSavedHandler(entity -> {

@@ -1,5 +1,6 @@
 package de.flubba.rallye.rest;
 
+import de.flubba.rallye.configuration.RallyeProperties;
 import de.flubba.rallye.entity.Lap;
 import de.flubba.rallye.entity.Runner;
 import de.flubba.rallye.entity.TagAssignment;
@@ -10,7 +11,6 @@ import de.flubba.rallye.rest.dto.RunnerDto;
 import de.flubba.rallye.service.LapBroadcaster;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,20 +20,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.Duration;
 
 @RestController
 public class TagController {
 
     private static final Logger log = LoggerFactory.getLogger(TagController.class);
 
-    @Value("${rallye.min-lap-duration}")
-    private Long minimumLapDuration;
+    private final RallyeProperties rallyeProperties;
 
     private final TagAssignmentRepository tagAssignmentRepository;
     private final RunnerRepository runnerRepository;
     private final LapRepository lapRepository;
 
-    public TagController(TagAssignmentRepository tagAssignmentRepository, RunnerRepository runnerRepository, LapRepository lapRepository) {
+    public TagController(RallyeProperties rallyeProperties, TagAssignmentRepository tagAssignmentRepository, RunnerRepository runnerRepository, LapRepository lapRepository) {
+        this.rallyeProperties = rallyeProperties;
         this.tagAssignmentRepository = tagAssignmentRepository;
         this.runnerRepository = runnerRepository;
         this.lapRepository = lapRepository;
@@ -53,8 +54,8 @@ public class TagController {
     }
 
     private static final class LapTooShortException extends Exception {
-        private LapTooShortException(long minimumLapDuration, long duration) {
-            super(String.format("Lap too short! Was only %s seconds. Minimum lap duration is %s seconds.", duration, minimumLapDuration));
+        private LapTooShortException(Duration minimumLapDuration, long duration) {
+            super(String.format("Lap too short! Was only %s. Minimum lap duration is %s seconds.", duration, minimumLapDuration));
         }
     }
 
@@ -107,14 +108,14 @@ public class TagController {
         lapRepository.saveAndFlush(lap);
     }
 
-    private long getLapDuration(Runner runner) throws LapTooShortException {
+    private long getLapDuration(Runner runner) throws LapTooShortException { //TODO: only do things with java.time here
         long duration = 0;
         long currentTime = System.currentTimeMillis();
         Lap lastLap = lapRepository.findLastLap(runner);
         if (lastLap != null) {
             duration = currentTime - lastLap.getTime();
-            if (duration < minimumLapDuration * 1000) {
-                throw new LapTooShortException(minimumLapDuration, (duration / 1000));
+            if (duration < rallyeProperties.getMinLapDuration().toMillis()) {
+                throw new LapTooShortException(rallyeProperties.getMinLapDuration(), (duration / 1000));
             }
         }
         return duration;
