@@ -32,7 +32,6 @@ public class RunnerEditForm extends AbstractForm<Runner> {
 
         roomNumber.setValueChangeMode(ValueChangeMode.EAGER); //so that the "Save" button becomes active early enough
 
-        setModalWindowTitle(I18n.RUNNER_FORM_TITLE.get());
         setSaveCaption(I18n.RUNNER_FORM_BUTTON_SAVE.get());
         setCancelCaption(I18n.RUNNER_FORM_BUTTON_CANCEL.get());
         getDeleteButton().setVisible(false);
