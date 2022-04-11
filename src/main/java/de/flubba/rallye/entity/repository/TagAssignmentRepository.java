@@ -3,8 +3,10 @@ package de.flubba.rallye.entity.repository;
 import de.flubba.rallye.entity.TagAssignment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TagAssignmentRepository extends JpaRepository<TagAssignment, Long> {
-    TagAssignment findOneByTagId(String tagId);
+import java.util.Optional;
 
-    TagAssignment findOneByRunnerId(Long runnerId);
+public interface TagAssignmentRepository extends JpaRepository<TagAssignment, Long> {
+    Optional<TagAssignment> findOneByTagId(String tagId);
+
+    Optional<TagAssignment> findOneByRunnerId(Long runnerId);
 }
