@@ -94,12 +94,12 @@ abstract class RunnersViewDesign extends SplitLayout {
         sponsorsGrid.removeColumnByKey(Sponsor.Fields.runner);
         sponsorsGrid.removeColumnByKey(Sponsor.Fields.id);
         sponsorsGrid.removeColumnByKey(Sponsor.Fields.totalDonation);
-        sponsorsGrid.getColumnByKey(Sponsor.Fields.name).setResizable(false).setFlexGrow(1); //TODO: set the size properly here
+        sponsorsGrid.getColumnByKey(Sponsor.Fields.name).setResizable(false).setFlexGrow(1);
         sponsorsGrid.getColumnByKey(Sponsor.Fields.street).setResizable(false).setFlexGrow(1);
         sponsorsGrid.getColumnByKey(Sponsor.Fields.city).setResizable(false).setFlexGrow(1);
         sponsorsGrid.getColumnByKey(Sponsor.Fields.country).setResizable(false).setFlexGrow(1);
-        sponsorsGrid.getColumnByKey(Sponsor.Fields.perLapDonation).setResizable(false).setWidth("100px");
-        sponsorsGrid.getColumnByKey(Sponsor.Fields.oneTimeDonation).setResizable(false).setWidth("100px");
+        sponsorsGrid.getColumnByKey(Sponsor.Fields.perLapDonation).setResizable(false).setFlexGrow(0).setWidth("130px");
+        sponsorsGrid.getColumnByKey(Sponsor.Fields.oneTimeDonation).setResizable(false).setFlexGrow(0).setWidth("130px");
         sponsorsGrid.setColumnOrder(
                 sponsorsGrid.getColumnByKey(Sponsor.Fields.name),
                 sponsorsGrid.getColumnByKey(Sponsor.Fields.street),
