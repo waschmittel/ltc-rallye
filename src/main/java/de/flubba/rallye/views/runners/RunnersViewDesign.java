@@ -65,6 +65,7 @@ abstract class RunnersViewDesign extends SplitLayout {
 
     private void initRunnersGrid() {
         runnersGrid.removeColumnByKey("bonusLaps");
+        runnersGrid.removeColumnByKey("numberOfLapsRun");
         runnersGrid.removeColumnByKey("donations");
         runnersGrid.removeColumnByKey("numberOfSponsors");
         runnersGrid.removeColumnByKey("average");

@@ -31,7 +31,7 @@ public class ConfirmDialog { //TODO: maybe use Vaadin's ConfirmDialog
      */
     public ConfirmDialog(String question, String confirmCaption, String cancelCaption,
                          final ConfirmButtonHandler confirmButtonHandler, final CancelButtonHandler cancelButtonHandler) {
-        messageBox = new MessageBox(QUESTION, question, null, YES, CANCEL);
+        messageBox = new MessageBox(QUESTION, question, YES, CANCEL);
         messageBox.getButton(CANCEL).focus();
         messageBox.getButton(YES).setText(confirmCaption);
         messageBox.getButton(YES).addClickListener(event -> confirmButtonHandler.onConfirm());
