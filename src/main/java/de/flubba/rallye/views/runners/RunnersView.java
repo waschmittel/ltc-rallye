@@ -1,6 +1,7 @@
 package de.flubba.rallye.views.runners;
 
 import com.vaadin.flow.component.dependency.Uses;
+import com.vaadin.flow.component.grid.GridSortOrderBuilder;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
@@ -63,6 +64,8 @@ public class RunnersView extends RunnersViewDesign {
         refreshButton.addClickListener(e -> runnersGrid.refresh());
 
         runnersGrid.addRunnerSelectionListener(this::showSponsorsFor);
+        runnersGrid.sort(new GridSortOrderBuilder<Runner>().thenAsc(runnersGrid.getColumnByKey(Runner.Fields.id)).build());
+        runnersGrid.refresh();
     }
 
     private void showSponsorsFor(Runner runner) {

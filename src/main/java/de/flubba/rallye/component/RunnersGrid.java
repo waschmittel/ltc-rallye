@@ -1,8 +1,8 @@
 package de.flubba.rallye.component;
 
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridSortOrder;
 import com.vaadin.flow.component.grid.HeaderRow;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -11,11 +11,8 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import de.flubba.rallye.entity.Runner;
 import de.flubba.rallye.entity.repository.RunnerRepository;
 
-import javax.annotation.PostConstruct;
 import java.util.LinkedList;
 import java.util.List;
-
-import static com.vaadin.flow.data.provider.SortDirection.ASCENDING;
 
 @SpringComponent
 @RouteScope
@@ -38,12 +35,6 @@ public class RunnersGrid extends Grid<Runner> {
         initHeaderRow();
         initSelection();
         this.repository = repository;
-    }
-
-    @PostConstruct
-    private void init() {
-        sort(List.of(new GridSortOrder<>(getColumnByKey(Runner.Fields.id), ASCENDING)));
-        refresh();
     }
 
     private void initSelection() {
@@ -84,6 +75,7 @@ public class RunnersGrid extends Grid<Runner> {
         runnersFilter.setValueChangeMode(ValueChangeMode.TIMEOUT);
         runnersFilter.setValueChangeTimeout(1000);
         runnersFilter.addValueChangeListener(e -> refresh());
+        runnersFilter.setPrefixComponent(VaadinIcon.SEARCH.create());
     }
 
     public void refresh() {

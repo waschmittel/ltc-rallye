@@ -1,5 +1,6 @@
 package de.flubba.rallye.views.results;
 
+import com.vaadin.flow.component.grid.GridSortOrderBuilder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import de.flubba.rallye.component.EditDeleteButtonsProvider;
@@ -33,6 +34,8 @@ public class ResultsView extends ResultsViewDesign {
             runnersGrid.refresh();
         });
         refreshButton.addClickListener(e -> runnersGrid.refresh());
+        runnersGrid.sort(new GridSortOrderBuilder<Runner>().thenAsc(runnersGrid.getColumnByKey(Runner.Fields.id)).build());
+        runnersGrid.refresh();
     }
 
     private void editRunner(Runner runner) {
