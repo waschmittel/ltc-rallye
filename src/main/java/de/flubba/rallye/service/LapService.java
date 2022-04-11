@@ -19,13 +19,17 @@ public class LapService {
     private final LapBroadcaster lapBroadcaster;
 
     public Runner countLap(String tagId) throws LapCountingException {
-        var tagAssignment = tagService.getTagAssignment(tagId)
-                .orElseThrow(() -> new LapCountingException("Tag %s is not registered.".formatted(tagId)));
-        var runner = tagService.findRunner(tagAssignment)
-                .orElseThrow(() -> new LapCountingException("No runner with id %s found for counting laps.".formatted(tagAssignment.getRunnerId())));
+        Runner runner = getRunner(tagId);
         var duration = saveNewLap(runner);
         lapBroadcaster.broadcast(runner, duration);
         return runner;
+    }
+
+    private Runner getRunner(String tagId) throws LapCountingException {
+        var tagAssignment = tagService.getTagAssignment(tagId)
+                .orElseThrow(() -> new LapCountingException("Tag %s is not registered.".formatted(tagId)));
+        return tagService.findRunner(tagAssignment)
+                .orElseThrow(() -> new LapCountingException("No runner with id %s found for counting laps.".formatted(tagAssignment.getRunnerId())));
     }
 
     private long saveNewLap(Runner runner) throws LapCountingException {
@@ -41,9 +45,9 @@ public class LapService {
 
     private long getLapDuration(Runner runner, long currentTime) throws LapCountingException {
         long duration = 0;
-        Lap lastLap = lapRepository.findLastLap(runner);
-        if (lastLap != null) {
-            duration = currentTime - lastLap.getTime();
+        var lastLap = lapRepository.findLastLap(runner);
+        if (lastLap.isPresent()) {
+            duration = currentTime - lastLap.get().getTime();
             if (duration < rallyeProperties.getMinLapDuration().toMillis()) {
                 throw new LapCountingException("Lap too short! Was only %s. Minimum lap duration is %s seconds."
                         .formatted(duration / 1000, rallyeProperties.getMinLapDuration()));
