@@ -1,17 +1,18 @@
 package de.flubba.rallye.component;
 
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import lombok.RequiredArgsConstructor;
 
 import java.text.MessageFormat;
-import java.util.HashMap;
+import java.util.EnumMap;
 
 public class MessageBox {
     @RequiredArgsConstructor
@@ -19,8 +20,8 @@ public class MessageBox {
         // the order of definition in the enum represents the order in which the
         // buttons will apprear
         OK(VaadinIcon.CHECK, ButtonVariant.LUMO_PRIMARY),
-        YES(VaadinIcon.CHECK, ButtonVariant.LUMO_SUCCESS), //TODO: does this fit FRIENDLY?
-        NO(VaadinIcon.BAN, ButtonVariant.LUMO_ERROR), //TODO: does this fit DANGER?
+        YES(VaadinIcon.CHECK, ButtonVariant.LUMO_SUCCESS),
+        NO(VaadinIcon.BAN, ButtonVariant.LUMO_ERROR),
         CANCEL(null, null);
 
         private final VaadinIcon icon;
@@ -37,43 +38,11 @@ public class MessageBox {
         private final VaadinIcon icon;
     }
 
-    private static final String ICON_CLASS = "message-box-icon";
-    private static final String LABEL_CLASS = "message-box-label";
-
-    private final HashMap<ButtonId, Button> buttons = new HashMap<>();
+    private final EnumMap<ButtonId, Button> buttons = new EnumMap<>(ButtonId.class);
     private final HorizontalLayout buttonLayout = new HorizontalLayout();
-    private final Text messageLabel = new Text("");
-    private final Div iconLabel = new Div(); //TODO: is this the right component for this? also see above
-    private final Dialog window = new Dialog();
-
-    {
-        /* TODO iconLabel.setContentMode(ContentMode.HTML);
-        iconLabel.addStyleName(ICON_CLASS);
-        messageLabel.addStyleName(LABEL_CLASS);
-        messageLabel.setContentMode(ContentMode.HTML);*/
-
-        HorizontalLayout messageLayout = new HorizontalLayout();
-        messageLayout.add(iconLabel);
-        messageLayout.add(messageLabel);
-        /* TODO messageLayout.setComponentAlignment(iconLabel, Alignment.MIDDLE_CENTER);
-        messageLayout.setComponentAlignment(messageLabel, Alignment.MIDDLE_LEFT);
-        messageLayout.setExpandRatio(messageLabel, 1);*/
-
-        VerticalLayout layout = new VerticalLayout();
-        /* TODO layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        layout.setMargin(true);
-        layout.setSpacing(true);*/
-        layout.add(messageLayout);
-        layout.add(buttonLayout);
-
-        buttonLayout.setSpacing(true);
-
-        window.add(layout); //TODO: is this OK?
-        window.setModal(true);
-        window.setCloseOnEsc(false);
-        window.setCloseOnOutsideClick(false);
-        window.setResizable(false);
-    }
+    private final Span messageLabel = new Span("");
+    private final Div iconLabel = new Div();
+    private final Dialog dialog = new Dialog();
 
     /**
      * create a message window that will close when any of the buttons is
@@ -81,16 +50,28 @@ public class MessageBox {
      *
      * @param messageType type of message
      * @param message the message to show
-     * @param title the title of the message window - may me null
      * @param buttonIds the types of buttons that should be displayed
      */
-    public MessageBox(MessageType messageType, String message, String title, ButtonId... buttonIds) {
+    public MessageBox(MessageType messageType, String message, ButtonId... buttonIds) {
+        HorizontalLayout messageLayout = new HorizontalLayout();
+        messageLayout.add(iconLabel);
+        messageLayout.add(messageLabel);
+
+        VerticalLayout layout = new VerticalLayout();
+        layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
+        layout.add(messageLayout);
+        layout.add(buttonLayout);
+
+        buttonLayout.setSpacing(true);
+
+        dialog.add(layout);
+        dialog.setModal(true);
+
         initButtons(buttonIds);
+
         iconLabel.add(messageType.icon.create());
-        // TODO: find replacement for iconLabel.addStyleName(messageType.getCssClass());
-        messageLabel.setText(message); //TODO: this should probably wrap
-        //TODO window.setCaption(title);
-        window.open();
+        messageLabel.setText(message);
+        dialog.open();
     }
 
     private void initButtons(ButtonId... buttonIds) {
@@ -102,7 +83,7 @@ public class MessageBox {
             if (buttonId.style != null) {
                 button.addThemeVariants(buttonId.style);
             }
-            button.addClickListener(event -> window.close());
+            button.addClickListener(event -> dialog.close());
             buttons.put(buttonId, button);
         }
         for (ButtonId buttonId : ButtonId.values()) {

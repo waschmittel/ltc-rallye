@@ -6,7 +6,7 @@ import static de.flubba.rallye.component.MessageBox.MessageType.ERROR;
 public class ErrorDialog {
 
     public ErrorDialog(String errorMessage) {
-        MessageBox messageBox = new MessageBox(ERROR, errorMessage, "tiiiiitle", OK); //TODO: replace or remove title
+        MessageBox messageBox = new MessageBox(ERROR, errorMessage, OK);
         messageBox.getButton(OK).focus();
     }
 
