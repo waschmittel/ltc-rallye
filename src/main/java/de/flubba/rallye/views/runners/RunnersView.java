@@ -66,6 +66,8 @@ public class RunnersView extends RunnersViewDesign {
         runnersGrid.addRunnerSelectionListener(this::showSponsorsFor);
         runnersGrid.sort(new GridSortOrderBuilder<Runner>().thenAsc(runnersGrid.getColumnByKey(Runner.Fields.id)).build());
         runnersGrid.refresh();
+
+        sponsorsGrid.sort(new GridSortOrderBuilder<Sponsor>().thenAsc(sponsorsGrid.getColumnByKey(Sponsor.Fields.name)).build());
     }
 
     private void showSponsorsFor(Runner runner) {
