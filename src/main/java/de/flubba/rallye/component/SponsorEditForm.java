@@ -2,6 +2,7 @@ package de.flubba.rallye.component;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Result;
@@ -21,6 +22,8 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
+import static com.vaadin.flow.data.value.ValueChangeMode.EAGER;
+
 public class SponsorEditForm extends AbstractForm<Sponsor> {
     private final BigDecimal shekelToEuro;
 
@@ -28,16 +31,15 @@ public class SponsorEditForm extends AbstractForm<Sponsor> {
     private final TextField street = new TextField(I18n.SPONSOR_STREET.get());
     private final TextField city = new TextField(I18n.SPONSOR_CITY.get());
     private final TextField country = new TextField(I18n.SPONSOR_COUNTRY.get());
-    private final TextField perLapDonation = new TextField(I18n.SPONSOR_PERLAP.get()); //TODO: this seems to be wrong with the locale
-    private final TextField perLapShekels = new TextField(I18n.SPONSOR_PERLAP_SHEKEL.get());
-    private final TextField oneTimeDonation = new TextField(I18n.SPONSOR_ONETIME.get());
-    private final TextField oneTimeShekels = new TextField(I18n.SPONSOR_ONETIME_SHEKEL.get());
+    private final TextField perLapDonation = currencyTextField("€", I18n.SPONSOR_PERLAP.get());
+    private final TextField perLapShekels = currencyTextField("₪", I18n.SPONSOR_PERLAP_SHEKEL.get());
+    private final TextField oneTimeDonation = currencyTextField("€", I18n.SPONSOR_ONETIME.get());
+    private final TextField oneTimeShekels = currencyTextField("₪", I18n.SPONSOR_ONETIME_SHEKEL.get());
 
     public SponsorEditForm(Sponsor sponsor, BigDecimal shekelToEuro) {
         super(Sponsor.class);
         this.shekelToEuro = shekelToEuro;
 
-        setModalWindowTitle(I18n.SPONSOR_FORM_TITLE.get());
         setSaveCaption(I18n.SPONSOR_FORM_BUTTON_SAVE.get());
         setCancelCaption(I18n.SPONSOR_FORM_BUTTON_CANCEL.get());
         getDeleteButton().setVisible(false);
@@ -45,12 +47,20 @@ public class SponsorEditForm extends AbstractForm<Sponsor> {
         addShekelConversion(oneTimeShekels, oneTimeDonation);
         addShekelConversion(perLapShekels, perLapDonation);
 
-        //TODO setSizeUndefined();
         setEntity(sponsor);
+    }
+
+    private static TextField currencyTextField(String currency, String label) {
+        var prefix = new Div();
+        prefix.setText(currency);
+        var textField = new TextField(label);
+        textField.setPrefixComponent(prefix);
+        return textField;
     }
 
     private void addShekelConversion(TextField source, TextField target) {
         var converter = new LocaleIndependentMoneyConverter();
+        source.setValueChangeMode(EAGER);
         source.addValueChangeListener(event -> {
             try {
                 BigDecimal shekels = converter.parse(source.getValue());
@@ -87,7 +97,7 @@ public class SponsorEditForm extends AbstractForm<Sponsor> {
                 return ValidationResult.error(I18n.SPONSOR_NO_DONATION.get());
             } else {
                 perLapDonation.setInvalid(false);
-                oneTimeDonation.setInvalid(true);
+                oneTimeDonation.setInvalid(false);
                 return ValidationResult.ok();
             }
         });
@@ -101,6 +111,7 @@ public class SponsorEditForm extends AbstractForm<Sponsor> {
                 decimalFormat.setParseBigDecimal(true);
                 decimalFormat.setMinimumFractionDigits(2);
                 decimalFormat.setMaximumFractionDigits(2);
+                decimalFormat.setGroupingUsed(false);
             }
         }
 
