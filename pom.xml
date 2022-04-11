@@ -187,8 +187,8 @@
                     <files>i18n.properties</files>
                     <lineLength>300</lineLength>
                     <prefixedOnly>false</prefixedOnly>
-                    <generateDirectory>${basedir}/src/main/java</generateDirectory>
-                    <packageName>de.flubba.generated.i18n</packageName><!-- TODO: this is not the right place for this -->
+                    <generateDirectory>${basedir}/target/generated-sources</generateDirectory>
+                    <packageName>de.flubba.generated.i18n</packageName>
                     <implement>de.flubba.rallye.i18n.I18nEnum</implement>
                     <enumJavadoc>&lt;b&gt;%2$s&lt;/b&gt;&lt;br&gt;&lt;br&gt;&lt;i&gt;%1$s&lt;/i&gt;</enumJavadoc>
                 </configuration>
@@ -198,6 +198,25 @@
                             <goal>generate</goal>
                         </goals>
                         <phase>generate-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources</source>
+                            </sources>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
