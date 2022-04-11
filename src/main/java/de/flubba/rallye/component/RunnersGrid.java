@@ -19,7 +19,6 @@ import static com.vaadin.flow.data.provider.SortDirection.ASCENDING;
 
 @SpringComponent
 @RouteScope
-//TODO: @ViewScope what was this?
 public class RunnersGrid extends Grid<Runner> {
     public interface SelectionListener {
         void onSelect(Runner runner);
