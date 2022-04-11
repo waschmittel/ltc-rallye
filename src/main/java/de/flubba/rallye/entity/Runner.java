@@ -1,6 +1,9 @@
 package de.flubba.rallye.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Column;
@@ -15,9 +18,14 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Data
 @Entity
 @ToString(onlyExplicitlyIncluded = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = PRIVATE)
 public class Runner {
     public enum Gender {
         male, female, child

@@ -1,6 +1,9 @@
 package de.flubba.rallye.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Column;
@@ -14,10 +17,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
+import static lombok.AccessLevel.PRIVATE;
+
 @Data
 @Entity
 @HasDonation
 @ToString(onlyExplicitlyIncluded = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = PRIVATE)
 public class Sponsor {
     @Id
     @GeneratedValue
