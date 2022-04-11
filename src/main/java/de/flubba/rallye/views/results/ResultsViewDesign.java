@@ -7,6 +7,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import de.flubba.generated.i18n.I18n;
 import de.flubba.rallye.component.RunnersGrid;
+import de.flubba.rallye.entity.Runner;
 
 import javax.annotation.PostConstruct;
 
@@ -26,7 +27,7 @@ abstract class ResultsViewDesign extends VerticalLayout {
     private void init() {
         toolbarLayout.add(refreshButton, calculateButton);
 
-        runnersGrid.removeColumn(runnersGrid.getColumnByKey("roomNumber"));
+        runnersGrid.removeColumn(runnersGrid.getColumnByKey(Runner.Fields.roomNumber));
         runnersGrid.setSelectionMode(Grid.SelectionMode.NONE);
 
         add(toolbarLayout);

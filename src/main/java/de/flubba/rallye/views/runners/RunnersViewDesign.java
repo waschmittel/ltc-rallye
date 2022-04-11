@@ -8,6 +8,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import de.flubba.generated.i18n.I18n;
 import de.flubba.rallye.component.RunnersGrid;
+import de.flubba.rallye.entity.Runner;
 import de.flubba.rallye.entity.Sponsor;
 
 import javax.annotation.PostConstruct;
@@ -64,11 +65,11 @@ abstract class RunnersViewDesign extends SplitLayout {
     }
 
     private void initRunnersGrid() {
-        runnersGrid.removeColumnByKey("bonusLaps");
-        runnersGrid.removeColumnByKey("numberOfLapsRun");
-        runnersGrid.removeColumnByKey("donations");
-        runnersGrid.removeColumnByKey("numberOfSponsors");
-        runnersGrid.removeColumnByKey("average");
+        runnersGrid.removeColumnByKey(Runner.Fields.bonusLaps);
+        runnersGrid.removeColumnByKey(Runner.Fields.numberOfLapsRun);
+        runnersGrid.removeColumnByKey(Runner.Fields.donations);
+        runnersGrid.removeColumnByKey(Runner.Fields.numberOfSponsors);
+        runnersGrid.removeColumnByKey(Runner.Fields.average);
     }
 
     private void initSponsorsLayout() {
@@ -90,22 +91,22 @@ abstract class RunnersViewDesign extends SplitLayout {
 
     private void initSponsorsGrid() {
         sponsorsGrid.setSizeFull();
-        sponsorsGrid.removeColumnByKey("runner");
-        sponsorsGrid.removeColumnByKey("id");
-        sponsorsGrid.removeColumnByKey("totalDonation");
-        sponsorsGrid.getColumnByKey("name").setResizable(false).setFlexGrow(1);
-        sponsorsGrid.getColumnByKey("street").setResizable(false).setFlexGrow(1);
-        sponsorsGrid.getColumnByKey("city").setResizable(false).setFlexGrow(1);
-        sponsorsGrid.getColumnByKey("country").setResizable(false).setFlexGrow(1);
-        sponsorsGrid.getColumnByKey("perLapDonation").setResizable(false).setWidth("100px");
-        sponsorsGrid.getColumnByKey("oneTimeDonation").setResizable(false).setWidth("100px");
+        sponsorsGrid.removeColumnByKey(Sponsor.Fields.runner);
+        sponsorsGrid.removeColumnByKey(Sponsor.Fields.id);
+        sponsorsGrid.removeColumnByKey(Sponsor.Fields.totalDonation);
+        sponsorsGrid.getColumnByKey(Sponsor.Fields.name).setResizable(false).setFlexGrow(1); //TODO: set the size properly here
+        sponsorsGrid.getColumnByKey(Sponsor.Fields.street).setResizable(false).setFlexGrow(1);
+        sponsorsGrid.getColumnByKey(Sponsor.Fields.city).setResizable(false).setFlexGrow(1);
+        sponsorsGrid.getColumnByKey(Sponsor.Fields.country).setResizable(false).setFlexGrow(1);
+        sponsorsGrid.getColumnByKey(Sponsor.Fields.perLapDonation).setResizable(false).setWidth("100px");
+        sponsorsGrid.getColumnByKey(Sponsor.Fields.oneTimeDonation).setResizable(false).setWidth("100px");
         sponsorsGrid.setColumnOrder(
-                sponsorsGrid.getColumnByKey("name"), //TODO: do this better
-                sponsorsGrid.getColumnByKey("street"),
-                sponsorsGrid.getColumnByKey("city"),
-                sponsorsGrid.getColumnByKey("country"),
-                sponsorsGrid.getColumnByKey("perLapDonation"),
-                sponsorsGrid.getColumnByKey("oneTimeDonation")
+                sponsorsGrid.getColumnByKey(Sponsor.Fields.name),
+                sponsorsGrid.getColumnByKey(Sponsor.Fields.street),
+                sponsorsGrid.getColumnByKey(Sponsor.Fields.city),
+                sponsorsGrid.getColumnByKey(Sponsor.Fields.country),
+                sponsorsGrid.getColumnByKey(Sponsor.Fields.perLapDonation),
+                sponsorsGrid.getColumnByKey(Sponsor.Fields.oneTimeDonation)
         );
         sponsorsGrid.setSelectionMode(Grid.SelectionMode.NONE);
     }

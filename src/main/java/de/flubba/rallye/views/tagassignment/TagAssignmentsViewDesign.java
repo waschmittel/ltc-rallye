@@ -13,7 +13,7 @@ abstract class TagAssignmentsViewDesign extends VerticalLayout {
 
     @PostConstruct
     private void init() {
-        tagAssignments.removeColumn(tagAssignments.getColumnByKey("id"));
+        tagAssignments.removeColumn(tagAssignments.getColumnByKey(TagAssignment.Fields.id));
         tagAssignments.setSelectionMode(NONE);
         addAndExpand(tagAssignments);
     }

@@ -42,7 +42,7 @@ public class RunnersGrid extends Grid<Runner> {
 
     @PostConstruct
     private void init() {
-        sort(List.of(new GridSortOrder<>(getColumnByKey("id"), ASCENDING)));
+        sort(List.of(new GridSortOrder<>(getColumnByKey(Runner.Fields.id), ASCENDING)));
         refresh();
     }
 
@@ -60,25 +60,25 @@ public class RunnersGrid extends Grid<Runner> {
     }
 
     private void initColumns() {
-        removeColumnByKey("sponsors");
-        removeColumnByKey("laps");
+        removeColumnByKey(Runner.Fields.sponsors);
+        removeColumnByKey(Runner.Fields.laps);
         setColumnOrder(
-                getColumnByKey("id").setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey("name").setResizable(false).setFlexGrow(1),
-                getColumnByKey("gender").setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey("numberOfSponsors").setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey("numberOfLapsRun").setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey("bonusLaps").setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey("average").setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey("donations").setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey("roomNumber").setResizable(false).setFlexGrow(0).setWidth("200px")
+                getColumnByKey(Runner.Fields.id).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(Runner.Fields.name).setResizable(false).setFlexGrow(1),
+                getColumnByKey(Runner.Fields.gender).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(Runner.Fields.numberOfSponsors).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(Runner.Fields.numberOfLapsRun).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(Runner.Fields.bonusLaps).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(Runner.Fields.average).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(Runner.Fields.donations).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(Runner.Fields.roomNumber).setResizable(false).setFlexGrow(0).setWidth("200px")
         );
     }
 
     private void initHeaderRow() {
         HeaderRow runnersHeader = appendHeaderRow();
 
-        runnersHeader.getCell(getColumnByKey("name")).setComponent(runnersFilter);
+        runnersHeader.getCell(getColumnByKey(Runner.Fields.name)).setComponent(runnersFilter);
         runnersFilter.setWidthFull();
         runnersFilter.setClearButtonVisible(true);
         runnersFilter.setValueChangeMode(ValueChangeMode.TIMEOUT);
