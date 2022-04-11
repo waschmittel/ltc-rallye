@@ -6,7 +6,7 @@ import static de.flubba.rallye.component.MessageBox.ButtonId.CANCEL;
 import static de.flubba.rallye.component.MessageBox.ButtonId.YES;
 import static de.flubba.rallye.component.MessageBox.MessageType.QUESTION;
 
-public class ConfirmDialog { //TODO: maybe use Vaadin's ConfirmDialog
+public class ConfirmDialog {
     @FunctionalInterface
     public interface ConfirmButtonHandler {
         void onConfirm();
