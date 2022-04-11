@@ -2,6 +2,7 @@ package de.flubba.rallye.views;
 
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -131,6 +132,8 @@ public class MainLayout extends AppLayout {
     private Footer createFooter() {
         Footer layout = new Footer();
         layout.addClassNames("footer");
+
+        layout.add(new Text("Powered by Flubba"));
 
         return layout;
     }
