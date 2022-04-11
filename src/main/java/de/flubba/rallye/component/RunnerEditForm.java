@@ -64,6 +64,6 @@ public class RunnerEditForm extends AbstractForm<Runner> {
 
     @Override
     protected Component createContent() {
-        return new VerticalLayout(new FormLayout(id, name, gender, roomNumber, bonusLaps), getToolbar());
+        return new VerticalLayout(new FormLayout(name, gender, roomNumber, bonusLaps, id), getToolbar());
     }
 }

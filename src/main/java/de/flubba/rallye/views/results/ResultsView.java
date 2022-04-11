@@ -14,7 +14,7 @@ import javax.annotation.PostConstruct;
 
 @PageTitle("Results")
 @Route(value = "results", layout = MainLayout.class)
-public class ResultsView extends ResultsViewDesign { //TODO: check where to implement AfterNavigationObserver
+public class ResultsView extends ResultsViewDesign {
     private final RunnerRepository runnerRepository;
 
     private final RaceResultsService raceResultsService;
@@ -27,7 +27,7 @@ public class ResultsView extends ResultsViewDesign { //TODO: check where to impl
 
     @PostConstruct
     private void init() {
-        runnersGrid.addComponentColumn(new EditDeleteButtonsProvider<>(this::editRunner));
+        EditDeleteButtonsProvider.addAsFirst(runnersGrid, new EditDeleteButtonsProvider<>(this::editRunner));
         calculateButton.addClickListener(e -> {
             raceResultsService.generateResults();
             runnersGrid.refresh();

@@ -63,15 +63,15 @@ public class RunnersGrid extends Grid<Runner> {
         removeColumnByKey("sponsors");
         removeColumnByKey("laps");
         setColumnOrder(
-                getColumnByKey("id").setResizable(false).setWidth("100px"),
+                getColumnByKey("id").setResizable(false).setFlexGrow(0).setWidth("130px"),
                 getColumnByKey("name").setResizable(false).setFlexGrow(1),
-                getColumnByKey("gender").setResizable(false).setWidth("100px"),
-                getColumnByKey("numberOfSponsors").setResizable(false).setWidth("100px"),
-                getColumnByKey("numberOfLapsRun").setResizable(false).setWidth("100px"),
-                getColumnByKey("bonusLaps").setResizable(false).setWidth("100px"),
-                getColumnByKey("average").setResizable(false).setWidth("100px"),
-                getColumnByKey("donations").setResizable(false).setWidth("100px"),
-                getColumnByKey("roomNumber").setResizable(false).setWidth("100px")
+                getColumnByKey("gender").setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey("numberOfSponsors").setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey("numberOfLapsRun").setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey("bonusLaps").setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey("average").setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey("donations").setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey("roomNumber").setResizable(false).setFlexGrow(0).setWidth("200px")
         );
     }
 

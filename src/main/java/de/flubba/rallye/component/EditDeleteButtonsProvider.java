@@ -1,20 +1,29 @@
 package de.flubba.rallye.component;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.function.ValueProvider;
 
+import java.util.function.Predicate;
+import java.util.stream.Stream;
+
 import static com.vaadin.flow.component.button.ButtonVariant.LUMO_ERROR;
-import static com.vaadin.flow.component.button.ButtonVariant.LUMO_TERTIARY;
 
 public class EditDeleteButtonsProvider<E> implements ValueProvider<E, EditDeleteButtonsProvider.EntityButtons> {
-    public static final double COLUMN_WIDTH = 130;
-
     private final DeleteButtonClickListener<E> deleteButtonClickListener;
     private final EditButtonClickListener<E> editButtonClickListener;
     private final ShowEditButtonProvider<E> showEditButtonProvider;
     private final ShowDeleteButtonProvider<E> showDeleteButtonProvider;
+
+    public static <T> void addAsFirst(Grid<T> grid, EditDeleteButtonsProvider<T> editDeleteButtonsProvider) {
+        var column = grid.addComponentColumn(editDeleteButtonsProvider);
+        column.setWidth("120px");
+        column.setResizable(false);
+        column.setFlexGrow(0);
+        grid.setColumnOrder(Stream.concat(Stream.of(column), grid.getColumns().stream().filter(Predicate.not(column::equals))).toList());
+    }
 
     public EditDeleteButtonsProvider(EditButtonClickListener<E> editButtonClickListener,
                                      DeleteButtonClickListener<E> deleteButtonClickListener,
@@ -56,9 +65,7 @@ public class EditDeleteButtonsProvider<E> implements ValueProvider<E, EditDelete
 
         EntityButtons(boolean withEditButton, boolean withDeleteButton) {
             setSizeFull();
-            editButton.addThemeVariants(LUMO_TERTIARY);
             deleteButton.addThemeVariants(LUMO_ERROR);
-            deleteButton.addThemeVariants(LUMO_TERTIARY);
             if (withEditButton) {
                 add(editButton);
             }

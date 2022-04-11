@@ -153,6 +153,13 @@
             <version>1.18.22</version>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.9</version>
+            <scope>compile</scope>
+        </dependency>
+
 
         <dependency>
             <!-- for serializing fields as jsonb -->

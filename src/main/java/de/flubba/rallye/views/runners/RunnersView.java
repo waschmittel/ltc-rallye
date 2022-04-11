@@ -20,7 +20,7 @@ import de.flubba.rallye.entity.repository.RunnerRepository;
 import de.flubba.rallye.entity.repository.SponsorRepository;
 import de.flubba.rallye.views.MainLayout;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.text.WordUtils;
+import org.apache.commons.text.WordUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.LinkedList;
@@ -33,11 +33,10 @@ import java.util.LinkedList;
 public class RunnersView extends RunnersViewDesign {
     private final RunnerRepository runnerRepository;
     private final SponsorRepository sponsorRepository;
-
     private final RallyeProperties rallyeProperties;
 
     public RunnersView(RallyeProperties rallyeProperties, RunnersGrid runnersGrid, RunnerRepository runnerRepository, SponsorRepository sponsorRepository) {
-        super(runnersGrid); //TODO: see if this can be constructed with lombok
+        super(runnersGrid);
         this.rallyeProperties = rallyeProperties;
         this.runnerRepository = runnerRepository;
         this.sponsorRepository = sponsorRepository;
@@ -55,9 +54,8 @@ public class RunnersView extends RunnersViewDesign {
             editSponsor(newSponsor);
         });
 
-        sponsorsGrid.addComponentColumn(new EditDeleteButtonsProvider<>(this::editSponsor, this::confirmDeleteSponsor)).setResizable(false) //TODO: dont add at end
-                .setWidth("120px"); //TODO: maybe use a renderer
-        runnersGrid.addComponentColumn(new EditDeleteButtonsProvider<>(this::editRunner)).setResizable(false).setWidth("100px"); //TODO: dont add at end
+        EditDeleteButtonsProvider.addAsFirst(sponsorsGrid, new EditDeleteButtonsProvider<>(this::editSponsor, this::confirmDeleteSponsor));
+        EditDeleteButtonsProvider.addAsFirst(runnersGrid, new EditDeleteButtonsProvider<>(this::editRunner));
 
         refreshButton.addClickListener(e -> runnersGrid.refresh());
 
@@ -106,7 +104,7 @@ public class RunnersView extends RunnersViewDesign {
     }
 
     private static String capitalize(String string) {
-        return WordUtils.capitalizeFully(string, ' ', '-'); //TODO: replace
+        return WordUtils.capitalizeFully(string, ' ', '-');
     }
 
 
