@@ -5,6 +5,9 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.function.ValueProvider;
 
+import static com.vaadin.flow.component.button.ButtonVariant.LUMO_ERROR;
+import static com.vaadin.flow.component.button.ButtonVariant.LUMO_TERTIARY;
+
 public class EditDeleteButtonsProvider<E> implements ValueProvider<E, EditDeleteButtonsProvider.EntityButtons> {
     public static final double COLUMN_WIDTH = 130;
 
@@ -56,13 +59,10 @@ public class EditDeleteButtonsProvider<E> implements ValueProvider<E, EditDelete
         private final Button deleteButton = new Button("", VaadinIcon.TRASH.create());
 
         EntityButtons(boolean withEditButton, boolean withDeleteButton) {
-            setSpacing(false);
-            setMargin(false);
             setSizeFull();
-            //TODO setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-            //TODO editButton.addStyleName(ValoTheme.BUTTON_QUIET);
-            //TODO deleteButton.addStyleName(ValoTheme.BUTTON_DANGER);
-            //TODO deleteButton.addStyleName(ValoTheme.BUTTON_QUIET);
+            editButton.addThemeVariants(LUMO_TERTIARY);
+            deleteButton.addThemeVariants(LUMO_ERROR);
+            deleteButton.addThemeVariants(LUMO_TERTIARY);
             if (withEditButton) {
                 add(editButton);
             }
