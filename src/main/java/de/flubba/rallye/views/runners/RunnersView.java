@@ -26,7 +26,7 @@ import java.math.BigDecimal;
 import java.util.LinkedList;
 
 @PageTitle("Runners")
-@Route(value = "runners/:samplePersonID?/:action?(edit)", layout = MainLayout.class)
+@Route(value = "runners", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class) //TODO: this is the default route - maybe change this
 @Uses(Icon.class)
 @Slf4j

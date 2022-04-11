@@ -15,7 +15,7 @@ import javax.annotation.PostConstruct;
 import static com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY;
 import static com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode.CENTER;
 
-public class RunnersViewDesign extends SplitLayout {
+abstract class RunnersViewDesign extends SplitLayout {
     private final HorizontalLayout runnersToolbar = new HorizontalLayout();
     private final HorizontalLayout sponsorsToolbar = new HorizontalLayout();
 
@@ -29,7 +29,7 @@ public class RunnersViewDesign extends SplitLayout {
     protected final Grid<Sponsor> sponsorsGrid = new Grid<>(Sponsor.class);
     protected final RunnersGrid runnersGrid;
 
-    public RunnersViewDesign(RunnersGrid runnersGrid) {
+    protected RunnersViewDesign(RunnersGrid runnersGrid) {
         this.runnersGrid = runnersGrid;
     }
 
