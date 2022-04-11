@@ -36,7 +36,7 @@ vaadin:
 
 rallye:
   shekel-to-euro-rate: 0.230512
-  min-lap-duration: 20 #TODO: use actual duration
+  min-lap-duration: PT20S
 
 logging:
   level:
