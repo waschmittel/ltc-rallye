@@ -57,9 +57,9 @@ public class RunnersView extends RunnersViewDesign implements BeforeEnterObserve
             editSponsor(newSponsor);
         });
 
-        sponsorsGrid.addComponentColumn(new EditDeleteButtonsProvider<>(this::editSponsor, this::confirmDeleteSponsor)).setResizable(false)
-                .setWidth("120px");
-        runnersGrid.addComponentColumn(new EditDeleteButtonsProvider<>(this::editRunner)).setResizable(false).setWidth("100px");
+        sponsorsGrid.addComponentColumn(new EditDeleteButtonsProvider<>(this::editSponsor, this::confirmDeleteSponsor)).setResizable(false) //TODO: dont add at end
+                .setWidth("120px"); //TODO: maybe use a renderer
+        runnersGrid.addComponentColumn(new EditDeleteButtonsProvider<>(this::editRunner)).setResizable(false).setWidth("100px"); //TODO: dont add at end
 
         refreshButton.addClickListener(e -> runnersGrid.refresh());
 
@@ -84,6 +84,7 @@ public class RunnersView extends RunnersViewDesign implements BeforeEnterObserve
         runnerEditForm.setSavedHandler(entity -> {
             saveRunner(runner);
             runnerEditForm.closePopup();
+            addSponsorButton.focus();
         });
         runnerEditForm.setResetHandler(editedServer -> {
             runnersGrid.refresh();
@@ -130,6 +131,7 @@ public class RunnersView extends RunnersViewDesign implements BeforeEnterObserve
         sponsorEditForm.setSavedHandler(entity -> {
             saveSponsor(sponsor);
             sponsorEditForm.closePopup();
+            addSponsorButton.focus();
         });
         sponsorEditForm.setResetHandler(editedServer -> {
             showSponsorsFor(sponsor.getRunner());
