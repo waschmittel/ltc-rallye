@@ -84,11 +84,7 @@ public class RunnersGrid extends Grid<Runner> {
         runnersFilter.setClearButtonVisible(true);
         runnersFilter.setValueChangeMode(ValueChangeMode.TIMEOUT);
         runnersFilter.setValueChangeTimeout(1000);
-        //TODO: ResetButtonForTextField.extend(runnersFilter);
         runnersFilter.addValueChangeListener(e -> refresh());
-
-        //TODO: check if width is OK genderFilter.setPopupWidth(null);
-        // TODO genderFilter.setEmptySelectionAllowed(true);
     }
 
     public void refresh() {

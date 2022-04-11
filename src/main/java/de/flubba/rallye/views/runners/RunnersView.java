@@ -3,8 +3,6 @@ package de.flubba.rallye.views.runners;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
@@ -32,7 +30,7 @@ import java.util.LinkedList;
 @RouteAlias(value = "", layout = MainLayout.class) //TODO: this is the default route - maybe change this
 @Uses(Icon.class)
 @Slf4j
-public class RunnersView extends RunnersViewDesign implements BeforeEnterObserver {
+public class RunnersView extends RunnersViewDesign {
     private final RunnerRepository runnerRepository;
     private final SponsorRepository sponsorRepository;
 
@@ -150,11 +148,5 @@ public class RunnersView extends RunnersViewDesign implements BeforeEnterObserve
         sponsor.setStreet(capitalize(sponsor.getStreet().trim()));
         sponsor.setCity(capitalize(sponsor.getCity().trim()));
         sponsor.setCountry(capitalize(sponsor.getCountry().trim()));
-    }
-
-
-    @Override
-    public void beforeEnter(BeforeEnterEvent event) {
-        //TODO: go to the right person?
     }
 }

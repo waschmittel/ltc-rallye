@@ -65,7 +65,7 @@ public class RunnersViewDesign extends SplitLayout {
 
     private void initRunnersGrid() {
         runnersGrid.removeColumnByKey("bonusLaps");
-        runnersGrid.removeColumnByKey("donations"); //TODO: is there a better way? the grid seems to be persistent and protests removal
+        runnersGrid.removeColumnByKey("donations");
         runnersGrid.removeColumnByKey("numberOfSponsors");
         runnersGrid.removeColumnByKey("average");
     }
