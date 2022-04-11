@@ -95,7 +95,7 @@ public class RunnersView extends RunnersViewDesign {
     private boolean saveRunner(Runner runner) {
         sanitizeRunner(runner);
         if (runner.getId() == null && runnerRepository.existsByName(runner.getName())) {
-            var notification = new Notification(String.format("Cannot create \"%s\". There is already a runner with this name.", runner.getName()), 5000);
+            var notification = new Notification(I18n.RUNNER_DUPLICATE_ERROR.get(runner.getName()), 5000);
             notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
             notification.setPosition(MIDDLE);
             notification.open();
