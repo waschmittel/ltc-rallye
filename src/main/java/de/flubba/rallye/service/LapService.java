@@ -16,29 +16,31 @@ public class LapService {
     private final LapRepository lapRepository;
     private final RallyeProperties rallyeProperties;
     private final Clock clock;
+    private final LapBroadcaster lapBroadcaster;
 
     public Runner countLap(String tagId) throws LapCountingException {
         var tagAssignment = tagService.getTagAssignment(tagId)
                 .orElseThrow(() -> new LapCountingException("Tag %s is not registered.".formatted(tagId)));
         var runner = tagService.findRunner(tagAssignment)
                 .orElseThrow(() -> new LapCountingException("No runner with id %s found for counting laps.".formatted(tagAssignment.getRunnerId())));
-        long duration = getLapDuration(runner);
-        saveNewLap(runner, duration);
-        LapBroadcaster.broadcast(runner, duration);
+        var duration = saveNewLap(runner);
+        lapBroadcaster.broadcast(runner, duration);
         return runner;
     }
 
-    private void saveNewLap(Runner runner, long duration) {
+    private long saveNewLap(Runner runner) throws LapCountingException {
+        long currentTime = clock.millis();
         Lap lap = new Lap();
-        lap.setTime(System.currentTimeMillis());
+        lap.setTime(currentTime);
         lap.setRunner(runner);
-        lap.setDuration(duration);
+        var lapDuration = getLapDuration(runner, currentTime);
+        lap.setDuration(lapDuration);
         lapRepository.saveAndFlush(lap);
+        return lapDuration;
     }
 
-    private long getLapDuration(Runner runner) throws LapCountingException {
+    private long getLapDuration(Runner runner, long currentTime) throws LapCountingException {
         long duration = 0;
-        long currentTime = System.currentTimeMillis();
         Lap lastLap = lapRepository.findLastLap(runner);
         if (lastLap != null) {
             duration = currentTime - lastLap.getTime();

@@ -8,6 +8,7 @@ import com.vaadin.flow.router.Route;
 import de.flubba.rallye.entity.Runner;
 import de.flubba.rallye.service.LapBroadcaster;
 import de.flubba.rallye.views.MainLayout;
+import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -15,11 +16,13 @@ import java.util.LinkedList;
 
 @PageTitle("Live View")
 @Route(value = "Live-View", layout = MainLayout.class)
+@RequiredArgsConstructor
 public class LiveViewView extends LiveViewDesign {
     public static final int MAX_DISPLAYED_LAPS = 10;
 
     private final LinkedList<Text> recent = new LinkedList<>();
     private LapBroadcaster.LapBroadcastListener lapBroadcastListener;
+    private final LapBroadcaster lapBroadcaster;
 
     private void addRunner(String name) {
         Text newText = new Text(name);
@@ -34,7 +37,7 @@ public class LiveViewView extends LiveViewDesign {
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         var ui = attachEvent.getUI();
-        lapBroadcastListener = LapBroadcaster.register((runner, lapTime) -> ui.access(() -> addLap(runner, lapTime)));
+        lapBroadcastListener = lapBroadcaster.register((runner, lapTime) -> ui.access(() -> addLap(runner, lapTime)));
     }
 
     private void addLap(Runner runner, long lapTime) {
@@ -47,7 +50,7 @@ public class LiveViewView extends LiveViewDesign {
     @Override
     protected void onDetach(DetachEvent detachEvent) {
         if (lapBroadcastListener != null) {
-            LapBroadcaster.unregister(lapBroadcastListener);
+            lapBroadcaster.unregister(lapBroadcastListener);
         }
     }
 }
