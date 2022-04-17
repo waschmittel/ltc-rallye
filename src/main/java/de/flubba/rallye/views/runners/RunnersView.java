@@ -117,7 +117,7 @@ public class RunnersView extends RunnersViewDesign {
     }
 
     private static String capitalize(String string) {
-        return WordUtils.capitalizeFully(string, ' ', '-');
+        return WordUtils.capitalizeFully(string, ' ', '-', '/');
     }
 
 

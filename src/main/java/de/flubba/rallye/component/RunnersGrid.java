@@ -57,6 +57,7 @@ public class RunnersGrid extends Grid<Runner> {
                 getColumnByKey(Runner.Fields.id).setResizable(false).setFlexGrow(0).setWidth("130px"),
                 getColumnByKey(Runner.Fields.name).setResizable(false).setFlexGrow(1),
                 getColumnByKey(Runner.Fields.gender).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(Runner.Fields.country).setResizable(false).setFlexGrow(0).setWidth("130px"),
                 getColumnByKey(Runner.Fields.numberOfSponsors).setResizable(false).setFlexGrow(0).setWidth("130px"),
                 getColumnByKey(Runner.Fields.numberOfLapsRun).setResizable(false).setFlexGrow(0).setWidth("130px"),
                 getColumnByKey(Runner.Fields.bonusLaps).setResizable(false).setFlexGrow(0).setWidth("130px"),

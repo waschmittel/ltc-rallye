@@ -17,6 +17,7 @@ public class RunnerEditForm extends AbstractForm<Runner> {
     private final TextField roomNumber = new TextField(I18n.RUNNER_ROOM.get());
     private final TextField bonusLaps = new TextField(I18n.RESULTS_BONUS_LAPS.get());
     private final Select<Runner.Gender> gender = new Select<>(Runner.Gender.values());
+    private final Select<Runner.Country> country = new Select<>(Runner.Country.values());
 
     public RunnerEditForm(Runner runner) {
         super(Runner.class);
@@ -28,6 +29,7 @@ public class RunnerEditForm extends AbstractForm<Runner> {
 
         bonusLaps.setVisible(false);
         gender.setLabel(I18n.RUNNER_GENDER.get());
+        country.setLabel(I18n.RUNNER_COUNTRY.get());
 
         roomNumber.setValueChangeMode(ValueChangeMode.EAGER); //so that the "Save" button becomes active early enough
 
@@ -47,6 +49,7 @@ public class RunnerEditForm extends AbstractForm<Runner> {
         name.setEnabled(false);
         roomNumber.setVisible(false);
         gender.setVisible(false);
+        country.setVisible(false);
         bonusLaps.setVisible(true);
     }
 
@@ -66,6 +69,6 @@ public class RunnerEditForm extends AbstractForm<Runner> {
 
     @Override
     protected Component createContent() {
-        return new VerticalLayout(new FormLayout(name, gender, roomNumber, bonusLaps, id), getToolbar());
+        return new VerticalLayout(new FormLayout(name, gender, country, roomNumber, bonusLaps, id), getToolbar());
     }
 }

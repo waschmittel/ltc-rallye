@@ -33,6 +33,10 @@ public class Runner {
         male, female, child
     }
 
+    public enum Country {
+        Israel, Germany, Switzerland, other
+    }
+
     @Id
     @SequenceGenerator(name = "RUNNER_ID", allocationSize = 1)
     @GeneratedValue(generator = "RUNNER_ID", strategy = GenerationType.SEQUENCE)
@@ -54,6 +58,9 @@ public class Runner {
 
     @NotNull(message = "{runner.gender.required}")
     private Gender gender;
+
+    @NotNull(message = "{runner.country.required")
+    private Country country;
 
     @OneToMany(mappedBy = "runner", orphanRemoval = true)
     private List<Lap> laps;
