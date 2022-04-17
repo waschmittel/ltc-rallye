@@ -9,8 +9,6 @@ import de.flubba.generated.i18n.I18n;
 import de.flubba.rallye.component.RunnersGrid;
 import de.flubba.rallye.entity.Runner;
 
-import javax.annotation.PostConstruct;
-
 abstract class ResultsViewDesign extends VerticalLayout {
     private final HorizontalLayout toolbarLayout = new HorizontalLayout();
 
@@ -21,10 +19,7 @@ abstract class ResultsViewDesign extends VerticalLayout {
 
     protected ResultsViewDesign(RunnersGrid runnersGrid) {
         this.runnersGrid = runnersGrid;
-    }
-
-    @PostConstruct
-    private void init() {
+        
         toolbarLayout.add(refreshButton, calculateButton);
 
         runnersGrid.removeColumn(runnersGrid.getColumnByKey(Runner.Fields.roomNumber));

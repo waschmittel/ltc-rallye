@@ -24,7 +24,6 @@ import de.flubba.rallye.views.MainLayout;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.WordUtils;
 
-import javax.annotation.PostConstruct;
 import java.util.LinkedList;
 
 import static com.vaadin.flow.component.notification.Notification.Position.MIDDLE;
@@ -44,11 +43,11 @@ public class RunnersView extends RunnersViewDesign {
         this.rallyeProperties = rallyeProperties;
         this.runnerRepository = runnerRepository;
         this.sponsorRepository = sponsorRepository;
+
+        buildLayout();
     }
 
-    @SuppressWarnings("squid:S2177") //this is intentional
-    @PostConstruct
-    private void init() {
+    private void buildLayout() {
         addRunnerButton.addClickListener(event -> editRunner(new Runner()));
 
         addSponsorButton.addClickListener(event -> {

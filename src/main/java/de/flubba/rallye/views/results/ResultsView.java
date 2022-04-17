@@ -11,8 +11,6 @@ import de.flubba.rallye.entity.repository.RunnerRepository;
 import de.flubba.rallye.service.RaceResultsService;
 import de.flubba.rallye.views.MainLayout;
 
-import javax.annotation.PostConstruct;
-
 @PageTitle("Results")
 @Route(value = "results", layout = MainLayout.class)
 public class ResultsView extends ResultsViewDesign {
@@ -24,10 +22,11 @@ public class ResultsView extends ResultsViewDesign {
         super(runnersGrid);
         this.runnerRepository = runnerRepository;
         this.raceResultsService = raceResultsService;
+
+        buildLayout();
     }
 
-    @PostConstruct
-    private void init() {
+    private void buildLayout() {
         EditDeleteButtonsProvider.addAsFirst(runnersGrid, new EditDeleteButtonsProvider<>(this::editRunner));
         calculateButton.addClickListener(e -> {
             raceResultsService.generateResults();

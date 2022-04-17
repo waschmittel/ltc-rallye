@@ -11,8 +11,6 @@ import de.flubba.rallye.component.RunnersGrid;
 import de.flubba.rallye.entity.Runner;
 import de.flubba.rallye.entity.Sponsor;
 
-import javax.annotation.PostConstruct;
-
 import static com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY;
 import static com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode.CENTER;
 
@@ -32,10 +30,7 @@ abstract class RunnersViewDesign extends SplitLayout {
 
     protected RunnersViewDesign(RunnersGrid runnersGrid) {
         this.runnersGrid = runnersGrid;
-    }
-
-    @PostConstruct //TODO: is this still the right way to do lazy initialization?
-    private void init() {
+        
         setOrientation(Orientation.VERTICAL);
 
         initRunnersLayout();

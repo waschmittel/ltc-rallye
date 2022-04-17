@@ -8,8 +8,6 @@ import com.vaadin.flow.router.Route;
 import de.flubba.rallye.entity.repository.TagAssignmentRepository;
 import de.flubba.rallye.views.MainLayout;
 
-import javax.annotation.PostConstruct;
-
 @PageTitle("Tag Assignment")
 @Route(value = "tag-assignment", layout = MainLayout.class)
 @Uses(Icon.class)
@@ -19,12 +17,9 @@ public class TagAssignmentView extends TagAssignmentsViewDesign {
     private final TagAssignmentRepository tagAssignmentRepository;
 
     public TagAssignmentView(TagAssignmentRepository tagAssignmentRepository) {
+        super();
         this.tagAssignmentRepository = tagAssignmentRepository;
-    }
-
-    @PostConstruct
-    private void init() {
-        tagAssignments.setDataProvider(new ListDataProvider<>(tagAssignmentRepository.findAll()));
+        tagAssignments.setDataProvider(new ListDataProvider<>(tagAssignmentRepository.findAll())); //TODO replace
     }
 
 }
