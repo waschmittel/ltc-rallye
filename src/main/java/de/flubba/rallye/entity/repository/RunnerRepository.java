@@ -14,6 +14,4 @@ public interface RunnerRepository extends JpaRepository<Runner, Long> {
 
     @Query("select r from Runner r where lower(r.name) like lower(concat('%', :name,'%'))")
     List<Runner> findByNameIgnoreCaseContaining(String name);
-
-    List<Runner> findByNameIgnoreCaseContainingAndGenderIs(String name, Runner.Gender gender); //TODO: add this filter again for results
 }
