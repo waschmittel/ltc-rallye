@@ -45,7 +45,9 @@ abstract class RunnersViewDesign extends SplitLayout {
         addToSecondary(sponsorsLayout);
 
         setSizeFull();
-        //TODO: min/max split position
+
+        setPrimaryStyle("min-height", "25%");
+        setSecondaryStyle("min-height", "25%");
     }
 
     private void initRunnersLayout() {
