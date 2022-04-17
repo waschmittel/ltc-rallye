@@ -79,7 +79,7 @@ public class RunnersGrid extends Grid<Runner> {
     }
 
     public void refresh() {
-        setDataProvider(new ListDataProvider<>(
+        setItems(new ListDataProvider<>(
                 repository.findByNameIgnoreCaseContaining(runnersFilter.getValue())));
         if (selectedRunner != null) {
             select(selectedRunner);

@@ -73,11 +73,11 @@ public class RunnersView extends RunnersViewDesign {
         if (runner == null) {
             addSponsorButton.setEnabled(false);
             addSponsorButton.setText(I18n.SPONSOR_BUTTON_ADD.get());
-            sponsorsGrid.setDataProvider(new ListDataProvider<>(new LinkedList<>()));
+            sponsorsGrid.setItems(new ListDataProvider<>(new LinkedList<>()));
         } else {
             addSponsorButton.setEnabled(true);
             addSponsorButton.setText(I18n.SPONSOR_BUTTON_NAMED_ADD.get(runner.getName()));
-            sponsorsGrid.setDataProvider(new ListDataProvider<>(sponsorRepository.findByRunner(runner)));
+            sponsorsGrid.setItems(new ListDataProvider<>(sponsorRepository.findByRunner(runner)));
         }
     }
 
