@@ -38,6 +38,9 @@ public class RunnerEditForm extends AbstractForm<Runner> {
         getContent().setWidth("400px");
 
         setEntity(runner);
+        if (runner.getId() != null) {
+            getSaveButton().setEnabled(true);
+        }
     }
 
     public void showResultFields() {

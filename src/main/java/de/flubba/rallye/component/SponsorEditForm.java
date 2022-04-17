@@ -48,6 +48,9 @@ public class SponsorEditForm extends AbstractForm<Sponsor> {
         addShekelConversion(perLapShekels, perLapDonation);
 
         setEntity(sponsor);
+        if (sponsor.getId() != null) {
+            getSaveButton().setEnabled(true);
+        }
     }
 
     private static TextField currencyTextField(String currency, String label) {
