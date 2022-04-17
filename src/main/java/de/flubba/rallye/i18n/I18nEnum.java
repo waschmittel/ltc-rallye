@@ -7,7 +7,7 @@ import java.util.Locale;
  *
  * @author FlassakD
  */
-public interface I18nEnum { //TODO: there may be a better solution for i18n in Vaadin in 2022
+public interface I18nEnum {
     String key();
 
     /**
