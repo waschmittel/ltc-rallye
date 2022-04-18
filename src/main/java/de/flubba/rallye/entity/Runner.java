@@ -59,7 +59,7 @@ public class Runner {
     @NotNull(message = "{runner.gender.required}")
     private Gender gender;
 
-    @NotNull(message = "{runner.country.required")
+    @NotNull(message = "{runner.country.required}")
     private Country country;
 
     @OneToMany(mappedBy = "runner", orphanRemoval = true)
