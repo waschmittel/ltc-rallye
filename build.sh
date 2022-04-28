@@ -1,3 +1,3 @@
-#!/usr/local/bin/bash
+#!/usr/bin/env bash
 
 mvn clean package -Pproduction
