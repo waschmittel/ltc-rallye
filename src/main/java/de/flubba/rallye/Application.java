@@ -1,6 +1,5 @@
 package de.flubba.rallye;
 
-import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.server.PWA;
@@ -20,7 +19,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @ConfigurationPropertiesScan
 @Theme(value = "ltcrallye")
 @PWA(name = "LTC Rallye", shortName = "LTC Rallye", offlineResources = {})
-@NpmPackage(value = "line-awesome", version = "1.3.0")
 @Push
 public class Application extends SpringBootServletInitializer implements AppShellConfigurator {
 

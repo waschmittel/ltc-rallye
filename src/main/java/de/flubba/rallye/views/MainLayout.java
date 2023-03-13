@@ -1,137 +1,67 @@
 package de.flubba.rallye.views;
 
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.Footer;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
-import com.vaadin.flow.component.html.ListItem;
-import com.vaadin.flow.component.html.Nav;
-import com.vaadin.flow.component.html.Span;
-import com.vaadin.flow.component.html.UnorderedList;
+import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.theme.lumo.LumoUtility;
+import de.flubba.rallye.component.AppNav;
+import de.flubba.rallye.component.AppNavItem;
 import de.flubba.rallye.views.liveview.LiveViewView;
 import de.flubba.rallye.views.results.ResultsView;
 import de.flubba.rallye.views.runners.RunnersView;
 import de.flubba.rallye.views.tagassignment.TagAssignmentView;
+import org.vaadin.lineawesome.LineAwesomeIcon;
 
 /**
  * The main view is a top-level placeholder for other views.
  */
 public class MainLayout extends AppLayout {
 
-    /**
-     * A simple navigation item component, based on ListItem element.
-     */
-    public static class MenuItemInfo extends ListItem {
-
-        private final Class<? extends Component> view;
-
-        public MenuItemInfo(String menuTitle, String iconClass, Class<? extends Component> view) {
-            this.view = view;
-            RouterLink link = new RouterLink();
-            link.addClassNames("menu-item-link");
-            link.setRoute(view);
-
-            Span text = new Span(menuTitle);
-            text.addClassNames("menu-item-text");
-
-            link.add(new LineAwesomeIcon(iconClass), text);
-            add(link);
-        }
-
-        public Class<?> getView() {
-            return view;
-        }
-
-        /**
-         * Simple wrapper to create icons using LineAwesome iconset. See
-         * https://icons8.com/line-awesome
-         */
-        @NpmPackage(value = "line-awesome", version = "1.3.0")
-        public static class LineAwesomeIcon extends Span {
-            public LineAwesomeIcon(String lineawesomeClassnames) {
-                addClassNames("menu-item-icon");
-                if (!lineawesomeClassnames.isEmpty()) {
-                    addClassNames(lineawesomeClassnames);
-                }
-            }
-        }
-
-    }
-
-    private H1 viewTitle;
+    private H2 viewTitle;
 
     public MainLayout() {
         setPrimarySection(Section.DRAWER);
-        addToNavbar(true, createHeaderContent());
-        addToDrawer(createDrawerContent());
+        addDrawerContent();
+        addHeaderContent();
     }
 
-    private Component createHeaderContent() {
+    private void addHeaderContent() {
         DrawerToggle toggle = new DrawerToggle();
-        toggle.addClassNames("view-toggle");
-        toggle.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         toggle.getElement().setAttribute("aria-label", "Menu toggle");
 
-        viewTitle = new H1();
-        viewTitle.addClassNames("view-title");
+        viewTitle = new H2();
+        viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
 
-        Header header = new Header(toggle, viewTitle);
-        header.addClassNames("view-header");
-        return header;
+        addToNavbar(true, toggle, viewTitle);
     }
 
-    private Component createDrawerContent() {
+    private void addDrawerContent() {
         H2 appName = new H2("LTC Rallye");
         appName.addClassNames("app-name");
+        Header header = new Header(appName);
 
-        com.vaadin.flow.component.html.Section section = new com.vaadin.flow.component.html.Section(appName,
-                createNavigation(), createFooter());
-        section.addClassNames("drawer-section");
-        return section;
+        Scroller scroller = new Scroller(createNavigation());
+
+        addToDrawer(header, scroller, createFooter());
     }
 
-    private Nav createNavigation() {
-        Nav nav = new Nav();
-        nav.addClassNames("menu-item-container");
-        nav.getElement().setAttribute("aria-labelledby", "views");
-
-        // Wrap the links in a list; improves accessibility
-        UnorderedList list = new UnorderedList();
-        list.addClassNames("navigation-list");
-        nav.add(list);
-
-        for (MenuItemInfo menuItem : createMenuItems()) {
-            list.add(menuItem);
-
-        }
-        return nav;
-    }
-
-    private MenuItemInfo[] createMenuItems() {
-        return new MenuItemInfo[]{ //
-                new MenuItemInfo("Runners", "la la-running", RunnersView.class), //
-
-                new MenuItemInfo("Results", "la la-trophy", ResultsView.class), //
-
-                new MenuItemInfo("Tag Assignment", "la la-bullseye", TagAssignmentView.class), //
-
-                new MenuItemInfo("Live View", "la la-bullhorn", LiveViewView.class), //
-
-        };
+    private AppNav createNavigation() {
+        return new AppNav(
+                new AppNavItem("Runners", RunnersView.class, LineAwesomeIcon.RUNNING_SOLID.create()),
+                new AppNavItem("Results", ResultsView.class, LineAwesomeIcon.TROPHY_SOLID.create()),
+                new AppNavItem("Tag Assignment", TagAssignmentView.class, LineAwesomeIcon.BULLSEYE_SOLID.create()),
+                new AppNavItem("Live View", LiveViewView.class, LineAwesomeIcon.BULLHORN_SOLID.create())
+        );
     }
 
     private Footer createFooter() {
         Footer layout = new Footer();
-        layout.addClassNames("footer");
 
         layout.add(new Text("Powered by Flubba"));
 
