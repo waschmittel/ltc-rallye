@@ -5,4 +5,6 @@ set -e # fail non non-zero exit status
 set -u # fail on unset variable
 set -o pipefail # fail if a pipe fails
 
-mvn clean package -Pproduction
+cd "$(dirname '${0}')"
+
+mvn versions:use-latest-releases

@@ -16,8 +16,8 @@ public class RunnerEditForm extends AbstractForm<Runner> {
     private final TextField name = new TextField(I18n.RUNNER_NAME.get());
     private final TextField roomNumber = new TextField(I18n.RUNNER_ROOM.get());
     private final TextField bonusLaps = new TextField(I18n.RESULTS_BONUS_LAPS.get());
-    private final Select<Runner.Gender> gender = new Select<>(Runner.Gender.values());
-    private final Select<Runner.Country> country = new Select<>(Runner.Country.values());
+    private final Select<Runner.Gender> gender = new Select<>();
+    private final Select<Runner.Country> country = new Select<>();
 
     public RunnerEditForm(Runner runner) {
         super(Runner.class);
@@ -28,8 +28,12 @@ public class RunnerEditForm extends AbstractForm<Runner> {
         }
 
         bonusLaps.setVisible(false);
+
         gender.setLabel(I18n.RUNNER_GENDER.get());
+        gender.setItems(Runner.Gender.values());
+
         country.setLabel(I18n.RUNNER_COUNTRY.get());
+        country.setItems(Runner.Country.values());
 
         roomNumber.setValueChangeMode(ValueChangeMode.EAGER); //so that the "Save" button becomes active early enough
 
