@@ -4,7 +4,7 @@ db_name=rallye
 db_port=54320
 container_name=ltcrallye
 db_password=ltc
-postgres_version=14.2
+postgres_version=15.2
 
 shopt -s expand_aliases
 alias container_command=docker
