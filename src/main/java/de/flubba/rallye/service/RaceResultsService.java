@@ -81,7 +81,6 @@ public class RaceResultsService {
                 .average()
                 .orElse(0);
         return BigDecimal.valueOf(average)
-                .divide(new BigDecimal(1000L), RoundingMode.HALF_UP)
-                .setScale(3, RoundingMode.HALF_UP);
+                .divide(new BigDecimal(1000L), 3, RoundingMode.HALF_UP);
     }
 }
