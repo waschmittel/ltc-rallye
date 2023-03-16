@@ -37,11 +37,11 @@ public class RaceResultsService {
     }
 
     private void calculateLaps(Runner runner) {
-        runner.setNumberOfLapsRun(lapRepository.findByRunner(runner).size());
+        runner.setNumberOfLapsRun(lapRepository.findByRunnerId(runner.getId()).size());
     }
 
     private void calculateDonationsAndSponsors(Runner runner) {
-        List<Sponsor> sponsors = sponsorRepository.findByRunner(runner);
+        List<Sponsor> sponsors = sponsorRepository.findByRunnerId(runner.getId());
         BigDecimal runnersTotalDonation = sponsors.stream()
                 .map(sponsor -> saveSponsorsTotalDonation(runner, sponsor))
                 .reduce(BigDecimal::add)
@@ -71,7 +71,7 @@ public class RaceResultsService {
     }
 
     private void calculateAverage(Runner runner) {
-        runner.setAverage(getAverage(lapRepository.findByRunner(runner)));
+        runner.setAverage(getAverage(lapRepository.findByRunnerId(runner.getId())));
     }
 
     private static BigDecimal getAverage(List<Lap> laps) {
@@ -80,6 +80,8 @@ public class RaceResultsService {
                 .filter(duration -> duration != 0)
                 .average()
                 .orElse(0);
-        return BigDecimal.valueOf(average).divide(new BigDecimal(1000L)).setScale(3, RoundingMode.HALF_UP);
+        return BigDecimal.valueOf(average)
+                .divide(new BigDecimal(1000L), RoundingMode.HALF_UP)
+                .setScale(3, RoundingMode.HALF_UP);
     }
 }

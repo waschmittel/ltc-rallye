@@ -14,6 +14,17 @@ import de.flubba.rallye.entity.repository.RunnerRepository;
 import java.util.LinkedList;
 import java.util.List;
 
+import static de.flubba.rallye.entity.Runner.Fields.average;
+import static de.flubba.rallye.entity.Runner.Fields.bonusLaps;
+import static de.flubba.rallye.entity.Runner.Fields.country;
+import static de.flubba.rallye.entity.Runner.Fields.donations;
+import static de.flubba.rallye.entity.Runner.Fields.gender;
+import static de.flubba.rallye.entity.Runner.Fields.id;
+import static de.flubba.rallye.entity.Runner.Fields.name;
+import static de.flubba.rallye.entity.Runner.Fields.numberOfLapsRun;
+import static de.flubba.rallye.entity.Runner.Fields.numberOfSponsors;
+import static de.flubba.rallye.entity.Runner.Fields.roomNumber;
+
 @SpringComponent
 @RouteScope
 public class RunnersGrid extends Grid<Runner> {
@@ -39,38 +50,35 @@ public class RunnersGrid extends Grid<Runner> {
 
     private void initSelection() {
         setSelectionMode(SelectionMode.SINGLE);
-        addSelectionListener(event -> {
-            event.getFirstSelectedItem().ifPresentOrElse(runner -> {
-                selectedRunner = runner;
-                selectionListeners.forEach(listener -> listener.onSelect(runner));
-            }, () -> {
-                selectedRunner = null;
-                selectionListeners.forEach(listener -> listener.onSelect(null));
-            });
-        });
+        addSelectionListener(event ->
+                event.getFirstSelectedItem().ifPresentOrElse(runner -> {
+                    selectedRunner = runner;
+                    selectionListeners.forEach(listener -> listener.onSelect(runner));
+                }, () -> {
+                    selectedRunner = null;
+                    selectionListeners.forEach(listener -> listener.onSelect(null));
+                }));
     }
 
     private void initColumns() {
-        removeColumnByKey(Runner.Fields.sponsors);
-        removeColumnByKey(Runner.Fields.laps);
-        setColumnOrder(
-                getColumnByKey(Runner.Fields.id).setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey(Runner.Fields.name).setResizable(false).setFlexGrow(1),
-                getColumnByKey(Runner.Fields.gender).setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey(Runner.Fields.country).setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey(Runner.Fields.numberOfSponsors).setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey(Runner.Fields.numberOfLapsRun).setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey(Runner.Fields.bonusLaps).setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey(Runner.Fields.average).setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey(Runner.Fields.donations).setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey(Runner.Fields.roomNumber).setResizable(false).setFlexGrow(0).setWidth("200px")
-        );
+        setColumnOrder(List.of(
+                getColumnByKey(id).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(name).setResizable(false).setFlexGrow(1),
+                getColumnByKey(gender).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(country).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(numberOfSponsors).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(numberOfLapsRun).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(bonusLaps).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(average).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(donations).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(roomNumber).setResizable(false).setFlexGrow(0).setWidth("200px")
+        ));
     }
 
     private void initHeaderRow() {
         HeaderRow runnersHeader = appendHeaderRow();
 
-        runnersHeader.getCell(getColumnByKey(Runner.Fields.name)).setComponent(runnersFilter);
+        runnersHeader.getCell(getColumnByKey(name)).setComponent(runnersFilter);
         runnersFilter.setWidthFull();
         runnersFilter.setClearButtonVisible(true);
         runnersFilter.setValueChangeMode(ValueChangeMode.TIMEOUT);
@@ -97,6 +105,14 @@ public class RunnersGrid extends Grid<Runner> {
         refresh();
         runnersFilter.setValue("");
         select(runner);
+        int i = 0;
+        for (var runnerInRow : getGenericDataView().getItems().toList()) {
+            if (runnerInRow.equals(runner)) {
+                scrollToIndex(i);
+                break;
+            }
+            i++;
+        }
     }
 
     public void addRunnerSelectionListener(SelectionListener selectionListener) {

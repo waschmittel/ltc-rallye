@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -17,7 +16,6 @@ import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -61,12 +59,6 @@ public class Runner {
 
     @NotNull(message = "{runner.country.required}")
     private Country country;
-
-    @OneToMany(mappedBy = "runner", orphanRemoval = true)
-    private List<Lap> laps;
-
-    @OneToMany(mappedBy = "runner", orphanRemoval = true)
-    private List<Sponsor> sponsors;
 
     private Integer numberOfSponsors;
     private Integer numberOfLapsRun;

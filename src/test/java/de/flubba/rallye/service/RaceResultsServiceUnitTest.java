@@ -33,19 +33,21 @@ class RaceResultsServiceUnitTest {
 
     @Test
     void calculatesEverythingCorrectly() {
+        var runnerId = 13344L;
         var runner = Runner.builder()
+                .id(runnerId)
                 .bonusLaps(4L)
                 .build();
         var sponsor1 = Sponsor.builder().oneTimeDonation(new BigDecimal("10.00")).build();
         var sponsor2 = Sponsor.builder().perLapDonation(new BigDecimal("0.10")).build();
         var sponsor3 = Sponsor.builder().oneTimeDonation(new BigDecimal("100.00")).perLapDonation(new BigDecimal("1.00")).build();
 
-        when(sponsorRepository.findByRunner(runner)).thenReturn(List.of(
+        when(sponsorRepository.findByRunnerId(runnerId)).thenReturn(List.of(
                 sponsor1, sponsor2, sponsor3
         ));
         when(runnerRepository.findAll()).thenReturn(List.of(
                 runner));
-        when(lapRepository.findByRunner(runner)).thenReturn(List.of(
+        when(lapRepository.findByRunnerId(runnerId)).thenReturn(List.of(
                 Lap.builder().duration(100_000L).build(),
                 Lap.builder().duration(400_000L).build(),
                 Lap.builder().duration(300_000L).build(),

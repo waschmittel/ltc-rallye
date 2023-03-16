@@ -36,7 +36,7 @@ public class LapService {
         long currentTime = clock.millis();
         var duration = getLapDuration(runner, currentTime);
         lapRepository.saveAndFlush(Lap.builder()
-                .runner(runner)
+                .runnerId(runner.getId())
                 .time(currentTime)
                 .duration(duration)
                 .build());
@@ -45,7 +45,7 @@ public class LapService {
 
     private long getLapDuration(Runner runner, long currentTime) throws LapCountingException {
         long duration = 0;
-        var lastLap = lapRepository.findLastLap(runner);
+        var lastLap = lapRepository.findLastLap(runner.getId());
         if (lastLap.isPresent()) {
             duration = currentTime - lastLap.get().getTime();
             if (duration < rallyeProperties.getMinLapDuration().toMillis()) {

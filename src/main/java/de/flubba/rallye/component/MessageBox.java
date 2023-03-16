@@ -21,6 +21,7 @@ public class MessageBox {
         // buttons will apprear
         OK(VaadinIcon.CHECK, ButtonVariant.LUMO_PRIMARY),
         YES(VaadinIcon.CHECK, ButtonVariant.LUMO_SUCCESS),
+        DELETE(VaadinIcon.TRASH, ButtonVariant.LUMO_ERROR),
         NO(VaadinIcon.BAN, ButtonVariant.LUMO_ERROR),
         CANCEL(null, null);
 
@@ -40,8 +41,6 @@ public class MessageBox {
 
     private final EnumMap<ButtonId, Button> buttons = new EnumMap<>(ButtonId.class);
     private final HorizontalLayout buttonLayout = new HorizontalLayout();
-    private final Span messageLabel = new Span("");
-    private final Div iconLabel = new Div();
     private final Dialog dialog = new Dialog();
 
     /**
@@ -54,8 +53,10 @@ public class MessageBox {
      */
     public MessageBox(MessageType messageType, String message, ButtonId... buttonIds) {
         HorizontalLayout messageLayout = new HorizontalLayout();
+        Div iconLabel = new Div();
+
         messageLayout.add(iconLabel);
-        messageLayout.add(messageLabel);
+        messageLayout.add(new Span(message));
 
         VerticalLayout layout = new VerticalLayout();
         layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
@@ -70,7 +71,6 @@ public class MessageBox {
         initButtons(buttonIds);
 
         iconLabel.add(messageType.icon.create());
-        messageLabel.setText(message);
         dialog.open();
     }
 

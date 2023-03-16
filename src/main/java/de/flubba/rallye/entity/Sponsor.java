@@ -4,9 +4,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -34,23 +34,23 @@ public class Sponsor {
     @ToString.Include
     private Long id;
 
-    @NotNull(message = "{sponsor.field.required}")
+    @NotBlank(message = "{sponsor.field.required}")
     @Column(length = 100)
     @Size(min = 2, max = 100, message = "{sponsor.field.size}")
     @ToString.Include
     private String name;
 
-    @NotNull(message = "{sponsor.field.required}")
+    @NotBlank(message = "{sponsor.field.required}")
     @Column(length = 100)
     @Size(min = 2, max = 100, message = "{sponsor.field.size}")
     private String country;
 
-    @NotNull(message = "{sponsor.field.required}")
+    @NotBlank(message = "{sponsor.field.required}")
     @Column(length = 100)
     @Size(min = 2, max = 100, message = "{sponsor.field.size}")
     private String city;
 
-    @NotNull(message = "{sponsor.field.required}")
+    @NotBlank(message = "{sponsor.field.required}")
     @Column(length = 100)
     @Size(min = 2, max = 100, message = "{sponsor.field.size}")
     private String street;
@@ -67,7 +67,7 @@ public class Sponsor {
 
     private BigDecimal totalDonation;
 
-    @ManyToOne
-    private Runner runner;
+    @NotNull
+    private Long runnerId;
 
 }

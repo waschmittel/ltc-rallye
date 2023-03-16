@@ -10,6 +10,9 @@ import de.flubba.generated.i18n.I18n;
 import de.flubba.rallye.component.RunnersGrid;
 import de.flubba.rallye.entity.Runner;
 import de.flubba.rallye.entity.Sponsor;
+import de.flubba.rallye.entity.Sponsor.Fields;
+
+import java.util.List;
 
 import static com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY;
 import static com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode.CENTER;
@@ -30,7 +33,7 @@ abstract class RunnersViewDesign extends SplitLayout {
 
     protected RunnersViewDesign(RunnersGrid runnersGrid) {
         this.runnersGrid = runnersGrid;
-        
+
         setOrientation(Orientation.VERTICAL);
 
         initRunnersLayout();
@@ -88,23 +91,25 @@ abstract class RunnersViewDesign extends SplitLayout {
 
     private void initSponsorsGrid() {
         sponsorsGrid.setSizeFull();
-        sponsorsGrid.removeColumnByKey(Sponsor.Fields.runner);
-        sponsorsGrid.removeColumnByKey(Sponsor.Fields.id);
-        sponsorsGrid.removeColumnByKey(Sponsor.Fields.totalDonation);
-        sponsorsGrid.getColumnByKey(Sponsor.Fields.name).setResizable(false).setFlexGrow(1);
-        sponsorsGrid.getColumnByKey(Sponsor.Fields.street).setResizable(false).setFlexGrow(1);
-        sponsorsGrid.getColumnByKey(Sponsor.Fields.city).setResizable(false).setFlexGrow(1);
-        sponsorsGrid.getColumnByKey(Sponsor.Fields.country).setResizable(false).setFlexGrow(1);
-        sponsorsGrid.getColumnByKey(Sponsor.Fields.perLapDonation).setResizable(false).setFlexGrow(0).setWidth("130px");
-        sponsorsGrid.getColumnByKey(Sponsor.Fields.oneTimeDonation).setResizable(false).setFlexGrow(0).setWidth("130px");
-        sponsorsGrid.setColumnOrder(
-                sponsorsGrid.getColumnByKey(Sponsor.Fields.name),
-                sponsorsGrid.getColumnByKey(Sponsor.Fields.street),
-                sponsorsGrid.getColumnByKey(Sponsor.Fields.city),
-                sponsorsGrid.getColumnByKey(Sponsor.Fields.country),
-                sponsorsGrid.getColumnByKey(Sponsor.Fields.perLapDonation),
-                sponsorsGrid.getColumnByKey(Sponsor.Fields.oneTimeDonation)
-        );
+        sponsorsGrid.removeColumnByKey(Fields.runnerId);
+        sponsorsGrid.removeColumnByKey(Fields.id);
+        sponsorsGrid.removeColumnByKey(Fields.totalDonation);
+        sponsorsGrid.getColumnByKey(Fields.name).setResizable(false).setFlexGrow(1);
+        sponsorsGrid.getColumnByKey(Fields.street).setResizable(false).setFlexGrow(1);
+        sponsorsGrid.getColumnByKey(Fields.city).setResizable(false).setFlexGrow(1);
+        sponsorsGrid.getColumnByKey(Fields.country).setResizable(false).setFlexGrow(1);
+        sponsorsGrid.getColumnByKey(Fields.perLapDonation).setResizable(false).setFlexGrow(0).setWidth("130px");
+        sponsorsGrid.getColumnByKey(Fields.oneTimeDonation).setResizable(false).setFlexGrow(0).setWidth("130px");
+
+        sponsorsGrid.setColumnOrder(List.of(
+                sponsorsGrid.getColumnByKey(Fields.name),
+                sponsorsGrid.getColumnByKey(Fields.street),
+                sponsorsGrid.getColumnByKey(Fields.city),
+                sponsorsGrid.getColumnByKey(Fields.country),
+                sponsorsGrid.getColumnByKey(Fields.perLapDonation),
+                sponsorsGrid.getColumnByKey(Fields.oneTimeDonation)
+        ));
+        
         sponsorsGrid.setSelectionMode(Grid.SelectionMode.NONE);
     }
 }
