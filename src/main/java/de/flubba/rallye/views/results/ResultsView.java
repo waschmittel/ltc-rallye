@@ -4,6 +4,7 @@ import com.vaadin.flow.component.grid.GridSortOrderBuilder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import de.flubba.rallye.component.EditDeleteButtonsProvider;
+import de.flubba.rallye.component.RunnerResultEditor;
 import de.flubba.rallye.component.RunnersGrid;
 import de.flubba.rallye.entity.Runner;
 import de.flubba.rallye.entity.repository.RunnerRepository;
@@ -37,21 +38,11 @@ public class ResultsView extends ResultsViewDesign {
     }
 
     private void editRunner(Runner runner) {
-        //TODO new RunnerEditDialog(runner); //TODO
-        //TODO runnerEditDialog.showResultFields();
-        /* TODO runnerEditForm.openInModalPopup();
-        runnerEditForm.setSavedHandler(entity -> {
-            saveRunner(runner);
-            runnerEditForm.closePopup();
+        RunnerResultEditor.edit(runner, editedRunner -> {
+            var savedRunner = runnerRepository.saveAndFlush(editedRunner);
+            runnersGrid.selectRunner(savedRunner);
+            return true;
         });
-        runnerEditForm.setResetHandler(editedServer -> {
-            runnersGrid.refresh();
-            runnerEditForm.closePopup();
-        });*/
-    }
-
-    private void saveRunner(Runner runner) {
-        runnersGrid.selectRunner(runnerRepository.saveAndFlush(runner));
     }
 
 }

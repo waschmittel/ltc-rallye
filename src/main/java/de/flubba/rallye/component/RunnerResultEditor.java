@@ -1,9 +1,12 @@
 package de.flubba.rallye.component;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.select.Select;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.Result;
+import com.vaadin.flow.data.binder.ValueContext;
+import com.vaadin.flow.data.converter.Converter;
 import com.vaadin.flow.data.converter.StringToLongConverter;
 import de.flubba.generated.i18n.I18n;
 import de.flubba.rallye.entity.Runner;
@@ -13,13 +16,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public final class RunnerEditor {
+public final class RunnerResultEditor {
 
-    private RunnerEditor() {
+    private RunnerResultEditor() {
     }
 
     public static void edit(Runner runner, Predicate<Runner> submitHandler) {
-        new BeanEditDialog<>(runner, Runner.class, RunnerEditor::bindFields, submitHandler);
+        new BeanEditDialog<>(runner, Runner.class, RunnerResultEditor::bindFields, submitHandler);
     }
 
     private static Optional<List<Component>> bindFields(Binder<Runner> binder, Runner runner) {
@@ -32,20 +35,23 @@ public final class RunnerEditor {
                 .bind(Fields.id);
 
         var name = new TextField(I18n.RUNNER_NAME.get());
+        name.setEnabled(false);
         binder.forField(name).bind(Fields.name);
 
-        var roomNumber = new TextField(I18n.RUNNER_ROOM.get());
-        binder.forField(roomNumber).bind(Fields.roomNumber);
+        var bonusLaps = new NumberField(I18n.RESULTS_BONUS_LAPS.get());
+        binder.forField(bonusLaps)
+                .withConverter(new Converter<Double, Long>() {
+                    @Override
+                    public Result<Long> convertToModel(Double value, ValueContext context) {
+                        return Result.ok(value.longValue());
+                    }
 
-        var gender = new Select<Runner.Gender>();
-        gender.setLabel(I18n.RUNNER_GENDER.get());
-        gender.setItems(Runner.Gender.values());
-        binder.forField(gender).bind(Fields.gender);
-
-        var country = new Select<Runner.Country>();
-        country.setLabel(I18n.RUNNER_COUNTRY.get());
-        country.setItems(Runner.Country.values());
-        binder.forField(country).bind(Fields.country);
+                    @Override
+                    public Double convertToPresentation(Long value, ValueContext context) {
+                        return value == null ? 0D : value.doubleValue();
+                    }
+                })
+                .bind(Fields.bonusLaps);
 
         return Optional.empty();
     }
