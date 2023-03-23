@@ -69,21 +69,6 @@ public class SponsorEditor {
         TextField oneTimeShekels = currencyTextField("₪", I18n.SPONSOR_ONETIME_SHEKEL.get());
         addShekelConversion(oneTimeShekels, oneTimeDonation);
 
-        //TODO: funktioniert das? vielleicht nicht?!
-        /*binder.withValidator((value, context) -> {
-            if (value.getPerLapDonation() == null && value.getOneTimeDonation() == null) {
-                perLapDonation.setInvalid(true);
-                perLapDonation.setErrorMessage(I18n.SPONSOR_NO_DONATION.get());
-                oneTimeDonation.setInvalid(true);
-                oneTimeDonation.setErrorMessage(I18n.SPONSOR_NO_DONATION.get());
-                return ValidationResult.error(I18n.SPONSOR_NO_DONATION.get());
-            } else {
-                perLapDonation.setInvalid(false);
-                oneTimeDonation.setInvalid(false);
-                return ValidationResult.ok();
-            }
-        });*/
-
         return Optional.of(List.of(name, street, city, country, perLapDonation, perLapShekels, oneTimeDonation, oneTimeShekels));
     }
 
