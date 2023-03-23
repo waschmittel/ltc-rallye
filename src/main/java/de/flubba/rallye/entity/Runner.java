@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -41,13 +42,13 @@ public class Runner {
     @ToString.Include
     private Long id;
 
-    @NotNull(message = "{runner.name.required}")
+    @NotBlank(message = "{runner.name.required}")
     @Column(length = 100, unique = true)
     @Size(min = 5, max = 100, message = "{runner.name.length}")
     @ToString.Include
     private String name;
 
-    @NotNull(message = "{runner.room.required}")
+    @NotBlank(message = "{runner.room.required}")
     @Column(length = 20)
     @Size(min = 1, max = 20, message = "{runner.room.length}")
     private String roomNumber;

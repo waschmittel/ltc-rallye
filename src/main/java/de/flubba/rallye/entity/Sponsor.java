@@ -40,19 +40,16 @@ public class Sponsor {
     @ToString.Include
     private String name;
 
-    @NotBlank(message = "{sponsor.field.required}")
     @Column(length = 100)
-    @Size(min = 2, max = 100, message = "{sponsor.field.size}")
+    @Size(max = 100, message = "{sponsor.field.maxsize}")
     private String country;
 
-    @NotBlank(message = "{sponsor.field.required}")
     @Column(length = 100)
-    @Size(min = 2, max = 100, message = "{sponsor.field.size}")
+    @Size(max = 100, message = "{sponsor.field.maxsize}")
     private String city;
 
-    @NotBlank(message = "{sponsor.field.required}")
     @Column(length = 100)
-    @Size(min = 2, max = 100, message = "{sponsor.field.size}")
+    @Size(max = 100, message = "{sponsor.field.maxsize}")
     private String street;
 
     @DecimalMin(value = "0", message = "{sponsor.donation.one.range}")
