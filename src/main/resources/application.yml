@@ -35,7 +35,7 @@ vaadin:
     - de.flubba.rallye
 
 rallye:
-  shekel-to-euro-rate: 0.28
+  shekel-to-euro-rate: 0.25
   min-lap-duration: PT20S
 
 logging:
