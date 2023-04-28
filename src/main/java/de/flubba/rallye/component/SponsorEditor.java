@@ -37,16 +37,6 @@ public class SponsorEditor {
         TextField name = new TextField(I18n.SPONSOR_NAME.get());
         binder.forField(name).bind(Fields.name);
 
-        TextField street = new TextField(I18n.SPONSOR_STREET.get());
-        //binder.forField(street).bind(Fields.street);
-
-        TextField city = new TextField(I18n.SPONSOR_CITY.get());
-        //binder.forField(city).bind(Fields.city);
-
-        TextField country = new TextField(I18n.SPONSOR_COUNTRY.get());
-        //binder.forField(country).bind(Fields.country);
-        //TODO: properly remove these
-
         TextField perLapDonation = currencyTextField("€", I18n.SPONSOR_PERLAP.get());
         TextField oneTimeDonation = currencyTextField("€", I18n.SPONSOR_ONETIME.get());
         perLapDonation.addValueChangeListener(e -> binder.getBinding(Fields.oneTimeDonation).ifPresent(Binding::validate));

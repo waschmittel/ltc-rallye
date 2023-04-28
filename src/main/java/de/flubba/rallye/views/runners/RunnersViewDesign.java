@@ -95,9 +95,6 @@ abstract class RunnersViewDesign extends SplitLayout {
         sponsorsGrid.removeColumnByKey(Fields.id);
         sponsorsGrid.removeColumnByKey(Fields.totalDonation);
         sponsorsGrid.getColumnByKey(Fields.name).setResizable(false).setFlexGrow(3);
-        sponsorsGrid.removeColumnByKey(Fields.street);
-        sponsorsGrid.removeColumnByKey(Fields.city);
-        sponsorsGrid.removeColumnByKey(Fields.country);
         sponsorsGrid.getColumnByKey(Fields.perLapDonation).setResizable(false).setFlexGrow(1).setWidth("130px");
         sponsorsGrid.getColumnByKey(Fields.oneTimeDonation).setResizable(false).setFlexGrow(1).setWidth("130px");
 

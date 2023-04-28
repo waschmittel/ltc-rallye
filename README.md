@@ -15,9 +15,6 @@ where fastestlap.runner_id = runner.id;
 
 -- list of sponsors
 select sponsor.name,
-       street,
-       city,
-       sponsor.country,
        per_lap_donation,
        one_time_donation,
        runner.name,

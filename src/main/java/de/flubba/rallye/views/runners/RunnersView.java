@@ -147,9 +147,5 @@ public class RunnersView extends RunnersViewDesign {
 
     private void sanitizeSponsor(Sponsor sponsor) {
         sponsor.setName(capitalize(sponsor.getName().trim()));
-        //sponsor.setStreet(capitalize(sponsor.getStreet().trim()));
-        //sponsor.setCity(capitalize(sponsor.getCity().trim()));
-        //sponsor.setCountry(capitalize(sponsor.getCountry().trim()));
-        //TODO: properly remove these fields
     }
 }

@@ -40,18 +40,6 @@ public class Sponsor {
     @ToString.Include
     private String name;
 
-    @Column(length = 100)
-    @Size(max = 100, message = "{sponsor.field.maxsize}")
-    private String country;
-
-    @Column(length = 100)
-    @Size(max = 100, message = "{sponsor.field.maxsize}")
-    private String city;
-
-    @Column(length = 100)
-    @Size(max = 100, message = "{sponsor.field.maxsize}")
-    private String street;
-
     @DecimalMin(value = "0", message = "{sponsor.donation.one.range}")
     @DecimalMax(value = "10000", message = "{sponsor.donation.one.range}")
     @Column(precision = 8, scale = 2)
