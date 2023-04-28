@@ -94,22 +94,19 @@ abstract class RunnersViewDesign extends SplitLayout {
         sponsorsGrid.removeColumnByKey(Fields.runnerId);
         sponsorsGrid.removeColumnByKey(Fields.id);
         sponsorsGrid.removeColumnByKey(Fields.totalDonation);
-        sponsorsGrid.getColumnByKey(Fields.name).setResizable(false).setFlexGrow(1);
-        sponsorsGrid.getColumnByKey(Fields.street).setResizable(false).setFlexGrow(1);
-        sponsorsGrid.getColumnByKey(Fields.city).setResizable(false).setFlexGrow(1);
-        sponsorsGrid.getColumnByKey(Fields.country).setResizable(false).setFlexGrow(1);
-        sponsorsGrid.getColumnByKey(Fields.perLapDonation).setResizable(false).setFlexGrow(0).setWidth("130px");
-        sponsorsGrid.getColumnByKey(Fields.oneTimeDonation).setResizable(false).setFlexGrow(0).setWidth("130px");
+        sponsorsGrid.getColumnByKey(Fields.name).setResizable(false).setFlexGrow(3);
+        sponsorsGrid.removeColumnByKey(Fields.street);
+        sponsorsGrid.removeColumnByKey(Fields.city);
+        sponsorsGrid.removeColumnByKey(Fields.country);
+        sponsorsGrid.getColumnByKey(Fields.perLapDonation).setResizable(false).setFlexGrow(1).setWidth("130px");
+        sponsorsGrid.getColumnByKey(Fields.oneTimeDonation).setResizable(false).setFlexGrow(1).setWidth("130px");
 
         sponsorsGrid.setColumnOrder(List.of(
                 sponsorsGrid.getColumnByKey(Fields.name),
-                sponsorsGrid.getColumnByKey(Fields.street),
-                sponsorsGrid.getColumnByKey(Fields.city),
-                sponsorsGrid.getColumnByKey(Fields.country),
                 sponsorsGrid.getColumnByKey(Fields.perLapDonation),
                 sponsorsGrid.getColumnByKey(Fields.oneTimeDonation)
         ));
-        
+
         sponsorsGrid.setSelectionMode(Grid.SelectionMode.NONE);
     }
 }

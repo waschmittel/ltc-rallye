@@ -38,13 +38,14 @@ public class SponsorEditor {
         binder.forField(name).bind(Fields.name);
 
         TextField street = new TextField(I18n.SPONSOR_STREET.get());
-        binder.forField(street).bind(Fields.street);
+        //binder.forField(street).bind(Fields.street);
 
         TextField city = new TextField(I18n.SPONSOR_CITY.get());
-        binder.forField(city).bind(Fields.city);
+        //binder.forField(city).bind(Fields.city);
 
         TextField country = new TextField(I18n.SPONSOR_COUNTRY.get());
-        binder.forField(country).bind(Fields.country);
+        //binder.forField(country).bind(Fields.country);
+        //TODO: properly remove these
 
         TextField perLapDonation = currencyTextField("€", I18n.SPONSOR_PERLAP.get());
         TextField oneTimeDonation = currencyTextField("€", I18n.SPONSOR_ONETIME.get());
@@ -69,7 +70,7 @@ public class SponsorEditor {
         TextField oneTimeShekels = currencyTextField("₪", I18n.SPONSOR_ONETIME_SHEKEL.get());
         addShekelConversion(oneTimeShekels, oneTimeDonation);
 
-        return Optional.of(List.of(name, street, city, country, perLapDonation, perLapShekels, oneTimeDonation, oneTimeShekels));
+        return Optional.of(List.of(name, perLapDonation, perLapShekels, oneTimeDonation, oneTimeShekels));
     }
 
     private static boolean isValid(TextField oneTimeDonation, TextField perLapDonation) {
