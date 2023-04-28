@@ -24,6 +24,6 @@ fi
 # sleep for one second, otherwise docker will fail because the port is already in use
 sleep 1
 echo "${green}creating and starting container ${var}$container_name${message} ...${reset}"
-container_id=$(container_command run --name $container_name -e POSTGRES_DB=$db_name -e POSTGRES_PASSWORD=$db_password -e POSTGRES_USER=rallye -p $db_port:5432 -d postgres:$postgres_version -c max_connections=500)
+container_id=$(docker run --name $container_name -e POSTGRES_DB=$db_name -e POSTGRES_PASSWORD=$db_password -e POSTGRES_USER=rallye -p $db_port:5432 -d postgres:$postgres_version -c max_connections=500)
 
 echo "${message}ID of new $container_name container: ${var}$container_id${reset}"
