@@ -8,6 +8,7 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.spring.annotation.RouteScope;
 import com.vaadin.flow.spring.annotation.SpringComponent;
+import de.flubba.generated.i18n.I18n;
 import de.flubba.rallye.entity.Runner;
 import de.flubba.rallye.entity.repository.RunnerRepository;
 
@@ -85,6 +86,7 @@ public class RunnersGrid extends Grid<Runner> {
         runnersFilter.setValueChangeTimeout(1000);
         runnersFilter.addValueChangeListener(e -> refresh());
         runnersFilter.setPrefixComponent(VaadinIcon.SEARCH.create());
+        runnersFilter.setPlaceholder(I18n.RUNNER_FILTER_PLACEHOLDER.get());
     }
 
     public void refresh() {
