@@ -36,7 +36,7 @@ class RaceResultsServiceUnitTest {
         var runnerId = 13344L;
         var runner = Runner.builder()
                 .id(runnerId)
-                .bonusLaps(4L) //TODO: should be bonus *points*
+                .bonusPoints(4L) //TODO: should be bonus *points*
                 .build();
         var sponsorTotalDonation = Sponsor.builder().oneTimeDonation(new BigDecimal("10.00")).build();
         var sponsorPerLap = Sponsor.builder().perLapDonation(new BigDecimal("0.11")).build();

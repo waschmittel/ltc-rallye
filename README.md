@@ -6,7 +6,7 @@
 -- list of runners
 select name,
        number_of_laps_run,
-       bonus_laps,
+       bonus_points,
        fastest,
        average
 from runner,
@@ -19,7 +19,7 @@ select sponsor.name,
        one_time_donation,
        runner.name,
        coalesce(runner.number_of_laps_run, 0) laps,
-       coalesce(runner.bonus_laps, 0)         bonus,
+       coalesce(runner.bonus_points, 0)         bonus,
        total_donation,
        runner.room_number
 from sponsor,

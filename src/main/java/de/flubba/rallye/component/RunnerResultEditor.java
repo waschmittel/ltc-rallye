@@ -38,8 +38,8 @@ public final class RunnerResultEditor {
         name.setEnabled(false);
         binder.forField(name).bind(Fields.name);
 
-        var bonusLaps = new NumberField(I18n.RESULTS_BONUS_LAPS.get());
-        binder.forField(bonusLaps)
+        var bonusPoints = new NumberField(I18n.RESULTS_BONUS_POINTS.get());
+        binder.forField(bonusPoints)
                 .withConverter(new Converter<Double, Long>() {
                     @Override
                     public Result<Long> convertToModel(Double value, ValueContext context) {
@@ -51,7 +51,7 @@ public final class RunnerResultEditor {
                         return value == null ? 0D : value.doubleValue();
                     }
                 })
-                .bind(Fields.bonusLaps);
+                .bind(Fields.bonusPoints);
 
         return Optional.empty();
     }

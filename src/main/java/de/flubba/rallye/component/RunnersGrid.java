@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static de.flubba.rallye.entity.Runner.Fields.average;
-import static de.flubba.rallye.entity.Runner.Fields.bonusLaps;
+import static de.flubba.rallye.entity.Runner.Fields.bonusPoints;
 import static de.flubba.rallye.entity.Runner.Fields.country;
 import static de.flubba.rallye.entity.Runner.Fields.donations;
 import static de.flubba.rallye.entity.Runner.Fields.gender;
@@ -68,7 +68,7 @@ public class RunnersGrid extends Grid<Runner> {
                 getColumnByKey(country).setResizable(false).setFlexGrow(0).setWidth("130px"),
                 getColumnByKey(numberOfSponsors).setHeader("Sponsors").setResizable(false).setFlexGrow(0).setWidth("130px"),
                 getColumnByKey(numberOfLapsRun).setHeader("Laps").setResizable(false).setFlexGrow(0).setWidth("130px"),
-                getColumnByKey(bonusLaps).setResizable(false).setFlexGrow(0).setWidth("130px"),
+                getColumnByKey(bonusPoints).setResizable(false).setFlexGrow(0).setWidth("130px"),
                 getColumnByKey(average).setResizable(false).setFlexGrow(0).setWidth("130px"),
                 getColumnByKey(donations).setResizable(false).setFlexGrow(0).setWidth("130px"),
                 getColumnByKey(roomNumber).setResizable(false).setFlexGrow(0).setWidth("200px")

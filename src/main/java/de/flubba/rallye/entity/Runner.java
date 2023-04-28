@@ -63,6 +63,6 @@ public class Runner {
 
     private Integer numberOfSponsors;
     private Integer numberOfLapsRun;
-    private Long bonusLaps;
+    private Long bonusPoints;
 
 }
