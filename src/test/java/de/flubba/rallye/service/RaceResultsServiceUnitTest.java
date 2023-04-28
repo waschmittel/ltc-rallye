@@ -36,14 +36,17 @@ class RaceResultsServiceUnitTest {
         var runnerId = 13344L;
         var runner = Runner.builder()
                 .id(runnerId)
-                .bonusLaps(4L)
+                .bonusLaps(4L) //TODO: should be bonus *points*
                 .build();
-        var sponsor1 = Sponsor.builder().oneTimeDonation(new BigDecimal("10.00")).build();
-        var sponsor2 = Sponsor.builder().perLapDonation(new BigDecimal("0.10")).build();
-        var sponsor3 = Sponsor.builder().oneTimeDonation(new BigDecimal("100.00")).perLapDonation(new BigDecimal("1.00")).build();
+        var sponsorTotalDonation = Sponsor.builder().oneTimeDonation(new BigDecimal("10.00")).build();
+        var sponsorPerLap = Sponsor.builder().perLapDonation(new BigDecimal("0.11")).build();
+        var sponsorBoth = Sponsor.builder()
+                .oneTimeDonation(new BigDecimal("100.00"))
+                .perLapDonation(new BigDecimal("1.00"))
+                .build();
 
         when(sponsorRepository.findByRunnerId(runnerId)).thenReturn(List.of(
-                sponsor1, sponsor2, sponsor3
+                sponsorTotalDonation, sponsorPerLap, sponsorBoth
         ));
         when(runnerRepository.findAll()).thenReturn(List.of(
                 runner));
@@ -58,17 +61,17 @@ class RaceResultsServiceUnitTest {
         sut.generateResults();
 
         verify(runnerRepository).saveAndFlush(runner);
-        verify(sponsorRepository).saveAndFlush(sponsor1);
-        verify(sponsorRepository).saveAndFlush(sponsor2);
-        verify(sponsorRepository).saveAndFlush(sponsor3);
+        verify(sponsorRepository).saveAndFlush(sponsorTotalDonation);
+        verify(sponsorRepository).saveAndFlush(sponsorPerLap);
+        verify(sponsorRepository).saveAndFlush(sponsorBoth);
 
         assertThat(runner.getNumberOfLapsRun()).isEqualTo(5);
         assertThat(runner.getAverage()).isEqualTo(new BigDecimal("200.002"));
         assertThat(runner.getNumberOfSponsors()).isEqualTo(3);
-        assertThat(runner.getDonations()).isEqualTo(new BigDecimal("119.90"));
 
-        assertThat(sponsor1.getTotalDonation()).isEqualTo(new BigDecimal("10.00"));
-        assertThat(sponsor2.getTotalDonation()).isEqualTo(new BigDecimal("0.90"));
-        assertThat(sponsor3.getTotalDonation()).isEqualTo(new BigDecimal("109.00"));
+        assertThat(sponsorTotalDonation.getTotalDonation()).isEqualTo(new BigDecimal("10.00"));
+        assertThat(sponsorPerLap.getTotalDonation()).isEqualTo(new BigDecimal("0.59"));
+        assertThat(sponsorBoth.getTotalDonation()).isEqualTo(new BigDecimal("105.40"));
+        assertThat(runner.getDonations()).isEqualTo(new BigDecimal("115.99"));
     }
 }

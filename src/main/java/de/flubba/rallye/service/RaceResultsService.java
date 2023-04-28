@@ -63,8 +63,8 @@ public class RaceResultsService {
     }
 
     private static BigDecimal getLapDonation(Sponsor sponsor, Runner runner) {
-        Long bonusLaps = Optional.ofNullable(runner.getBonusLaps()).orElse(0L);
-        BigDecimal allLaps = new BigDecimal(runner.getNumberOfLapsRun() + bonusLaps);
+        Long bonusPoints = Optional.ofNullable(runner.getBonusLaps()).orElse(0L);
+        BigDecimal allLaps = new BigDecimal(runner.getNumberOfLapsRun()).add(new BigDecimal("0.1").multiply(new BigDecimal(bonusPoints)));
         BigDecimal perLapDonation = sponsor.getPerLapDonation();
 
         return allLaps.multiply(Optional.ofNullable(perLapDonation).orElse(BigDecimal.ZERO));
