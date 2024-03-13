@@ -5,13 +5,14 @@ import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.Footer;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.component.sidenav.SideNav;
+import com.vaadin.flow.component.sidenav.SideNavItem;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
-import de.flubba.rallye.component.AppNav;
-import de.flubba.rallye.component.AppNavItem;
 import de.flubba.rallye.views.liveview.LiveViewView;
 import de.flubba.rallye.views.results.ResultsView;
 import de.flubba.rallye.views.runners.RunnersView;
@@ -33,7 +34,7 @@ public class MainLayout extends AppLayout {
 
     private void addHeaderContent() {
         DrawerToggle toggle = new DrawerToggle();
-        toggle.getElement().setAttribute("aria-label", "Menu toggle");
+        toggle.setAriaLabel("Menu toggle");
 
         viewTitle = new H2();
         viewTitle.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
@@ -42,8 +43,8 @@ public class MainLayout extends AppLayout {
     }
 
     private void addDrawerContent() {
-        H2 appName = new H2("LTC Rallye");
-        appName.addClassNames("app-name");
+        H1 appName = new H1("LTC Rallye");
+        appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
         Header header = new Header(appName);
 
         Scroller scroller = new Scroller(createNavigation());
@@ -51,13 +52,15 @@ public class MainLayout extends AppLayout {
         addToDrawer(header, scroller, createFooter());
     }
 
-    private AppNav createNavigation() {
-        return new AppNav(
-                new AppNavItem("Runners", RunnersView.class, LineAwesomeIcon.RUNNING_SOLID.create()),
-                new AppNavItem("Results", ResultsView.class, LineAwesomeIcon.TROPHY_SOLID.create()),
-                new AppNavItem("Tag Assignment", TagAssignmentView.class, LineAwesomeIcon.BULLSEYE_SOLID.create()),
-                new AppNavItem("Live View", LiveViewView.class, LineAwesomeIcon.BULLHORN_SOLID.create())
+    private SideNav createNavigation() {
+        SideNav nav = new SideNav();
+        nav.addItem(
+                new SideNavItem("Runners", RunnersView.class, LineAwesomeIcon.RUNNING_SOLID.create()),
+                new SideNavItem("Results", ResultsView.class, LineAwesomeIcon.TROPHY_SOLID.create()),
+                new SideNavItem("Tag Assignment", TagAssignmentView.class, LineAwesomeIcon.BULLSEYE_SOLID.create()),
+                new SideNavItem("Live View", LiveViewView.class, LineAwesomeIcon.BULLHORN_SOLID.create())
         );
+        return nav;
     }
 
     private Footer createFooter() {
