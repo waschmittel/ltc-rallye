@@ -70,10 +70,9 @@ public class BeanEditDialog<T> extends Dialog {
         formLayout.setResponsiveSteps(
                 new FormLayout.ResponsiveStep("0", 1),
                 new FormLayout.ResponsiveStep("350", 2));
-        var numberOfColumns = Math.ceil(fields.length / 6.0);
+        var numberOfColumns = Math.ceil(Arrays.stream(fields).filter(Component::isVisible).count() / 6.0);
         formLayout.setWidth((float) (350 * numberOfColumns), PIXELS);
         // make the first field double-width on two-column layout if number of fields is odd
-        // TODO: only consider visible fields
         if (numberOfColumns == 2) {
             if (fields.length % 2 == 1) {
                 formLayout.setColspan(fields[0], 2);
