@@ -19,7 +19,7 @@ abstract class ResultsViewDesign extends VerticalLayout {
 
     protected ResultsViewDesign(RunnersGrid runnersGrid) {
         this.runnersGrid = runnersGrid;
-        
+
         toolbarLayout.add(refreshButton, calculateButton);
 
         runnersGrid.removeColumn(runnersGrid.getColumnByKey(Runner.Fields.roomNumber));
