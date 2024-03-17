@@ -15,7 +15,7 @@ public class MDNSAdvertiser implements AutoCloseable {
 
     public MDNSAdvertiser(@Value("${server.port}") int port) {
         try {
-            jmDNS = JmDNS.create(null, null, 200);
+            jmDNS = JmDNS.create();
 
             // Register a service
             ServiceInfo serviceInfo = ServiceInfo.create("_ltc-rallye._tcp.local.", "There can only be one!", port, "");
