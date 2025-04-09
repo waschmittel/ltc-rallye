@@ -91,6 +91,7 @@ abstract class RunnersViewDesign extends SplitLayout {
 
     private void initSponsorsGrid() {
         sponsorsGrid.setSizeFull();
+        this.getStyle().set("user-select", "none");
         sponsorsGrid.removeColumnByKey(Fields.runnerId);
         sponsorsGrid.removeColumnByKey(Fields.id);
         sponsorsGrid.removeColumnByKey(Fields.totalDonation);

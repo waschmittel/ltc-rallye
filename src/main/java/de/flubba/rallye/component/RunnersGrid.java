@@ -46,6 +46,7 @@ public class RunnersGrid extends Grid<Runner> {
         initColumns();
         initHeaderRow();
         initSelection();
+        this.getStyle().set("user-select", "none");
         this.repository = repository;
     }
 
