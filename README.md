@@ -14,19 +14,27 @@ from runner,
 where fastestlap.runner_id = runner.id;
 
 -- list of sponsors
-select sponsor.name,
-       per_lap_donation,
-       one_time_donation,
+select sponsor.name                                                                                     donor,
+       coalesce(per_lap_donation, 0)                                                                    per_lap_donation,
+       coalesce(one_time_donation, 0)                                                                   one_time_donation,
        runner.name,
-       coalesce(runner.number_of_laps_run, 0) laps,
-       coalesce(runner.bonus_points, 0)         bonus,
+       coalesce(runner.number_of_laps_run, 0)                                                           laps,
+       coalesce(runner.bonus_points, 0)                                                                 bonus_raw,
+       coalesce(runner.number_of_laps_run::numeric, 0) + coalesce(runner.bonus_points::numeric, 0) / 10 total,
        total_donation,
-       runner.room_number
+       runner.room_number,
+       coalesce(runner.bonus_points::numeric, 0) / 10                                                   bonus
 from sponsor,
      runner
 where sponsor.runner_id = runner.id
 order by runner.room_number asc, runner.name asc;
 ```
+
+## for Excel:
+
+- Export as | separated CSV
+- paste
+- put in columns with "Standard" formatting, using . for decimal separator
 
 ## Project structure
 
