@@ -4,7 +4,7 @@ db_name=rallye
 db_port=54320
 container_name=ltcrallye
 db_password=ltc
-postgres_version=16.2
+postgres_version=17.4
 
 message=$(tput setaf 7)
 red=$(tput setaf 1)
