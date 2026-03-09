@@ -71,7 +71,7 @@ public class MainLayout extends AppLayout {
         return layout;
     }
 
-    @Override
+    @Override // TODO: see how this is supposed to work now
     protected void afterNavigation() {
         super.afterNavigation();
         viewTitle.setText(getCurrentPageTitle());

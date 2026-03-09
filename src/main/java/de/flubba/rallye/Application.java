@@ -17,12 +17,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  */
 @SpringBootApplication
 @ConfigurationPropertiesScan
-@Theme(value = "ltcrallye")
+@Theme(value = "ltcrallye") // TODO: use @StyleSheet
 @PWA(name = "LTC Rallye", shortName = "LTC Rallye", offlineResources = {})
 @Push
 public class Application extends SpringBootServletInitializer implements AppShellConfigurator {
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 

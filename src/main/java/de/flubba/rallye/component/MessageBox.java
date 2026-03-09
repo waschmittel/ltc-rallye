@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import java.text.MessageFormat;
 import java.util.EnumMap;
 
+import static com.vaadin.flow.component.ModalityMode.STRICT;
+
 public class MessageBox {
     @RequiredArgsConstructor
     public enum ButtonId {
@@ -66,7 +68,7 @@ public class MessageBox {
         buttonLayout.setSpacing(true);
 
         dialog.add(layout);
-        dialog.setModal(true);
+        dialog.setModality(STRICT);
 
         initButtons(buttonIds);
 

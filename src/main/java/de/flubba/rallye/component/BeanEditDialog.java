@@ -22,6 +22,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import static com.vaadin.flow.component.Key.ENTER;
+import static com.vaadin.flow.component.ModalityMode.STRICT;
 import static com.vaadin.flow.component.Unit.PIXELS;
 import static com.vaadin.flow.data.value.ValueChangeMode.EAGER;
 
@@ -36,7 +37,7 @@ public class BeanEditDialog<T> extends Dialog {
         var fields = getFields(fieldBinder.apply(binder, bean));
 
         setCloseOnOutsideClick(false);
-        setModal(true);
+        setModality(STRICT);
         createFormLayout(fields);
         createFooter();
         listenToEnterKeyForSubmit(fields);
