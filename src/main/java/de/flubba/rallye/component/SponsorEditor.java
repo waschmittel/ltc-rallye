@@ -54,10 +54,10 @@ public class SponsorEditor {
                 .withConverter(new LocaleIndependentMoneyConverter())
                 .bind(Fields.oneTimeDonation);
 
-        TextField perLapShekels = currencyTextField("₪", I18n.SPONSOR_PERLAP_SHEKEL.get());
+        TextField perLapShekels = currencyTextField("₪", null);
         addShekelConversion(perLapShekels, perLapDonation);
 
-        TextField oneTimeShekels = currencyTextField("₪", I18n.SPONSOR_ONETIME_SHEKEL.get());
+        TextField oneTimeShekels = currencyTextField("₪", null);
         addShekelConversion(oneTimeShekels, oneTimeDonation);
 
         return Optional.of(List.of(name, perLapDonation, perLapShekels, oneTimeDonation, oneTimeShekels));
