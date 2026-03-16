@@ -11,6 +11,7 @@ import de.flubba.rallye.component.RunnersGrid;
 import de.flubba.rallye.entity.Runner;
 import de.flubba.rallye.entity.Sponsor;
 import de.flubba.rallye.entity.Sponsor.Fields;
+import de.flubba.rallye.views.ViewToolbar;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ import static com.vaadin.flow.component.button.ButtonVariant.LUMO_PRIMARY;
 import static com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode.CENTER;
 
 abstract class RunnersViewDesign extends SplitLayout {
-    private final HorizontalLayout runnersToolbar = new HorizontalLayout();
+    private final HorizontalLayout runnersToolbar = new ViewToolbar("Runners");
     private final HorizontalLayout sponsorsToolbar = new HorizontalLayout();
 
     private final VerticalLayout runnersLayout = new VerticalLayout();

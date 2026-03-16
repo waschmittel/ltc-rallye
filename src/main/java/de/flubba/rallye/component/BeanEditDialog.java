@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.value.HasValueChangeMode;
@@ -79,7 +80,9 @@ public class BeanEditDialog<T> extends Dialog {
                 formLayout.setColspan(fields[0], 2);
             }
         }
-        add(formLayout);
+        var paddingLayout = new HorizontalLayout(formLayout);
+        paddingLayout.setPadding(true);
+        add(paddingLayout);
     }
 
     private Component[] getFields(Optional<List<Component>> optionalComponents) {
@@ -96,8 +99,9 @@ public class BeanEditDialog<T> extends Dialog {
         Button submitButton = new Button(I18n.BEANEDITOR_FORM_BUTTON_SAVE.get(), VaadinIcon.CHECK.create(), e -> handleSubmitRequest());
         submitButton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
-        getFooter().add(cancelButton);
-        getFooter().add(submitButton);
+        var paddingLayout = new HorizontalLayout(cancelButton, submitButton);
+        paddingLayout.setPadding(true);
+        getFooter().add(paddingLayout);
     }
 
     private void handleSubmitRequest() {

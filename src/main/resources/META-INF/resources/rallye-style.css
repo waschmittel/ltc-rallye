@@ -1,0 +1,19 @@
+html {
+    /* "light dark" to respect OS/browser settings */
+    --aura-content-color-scheme: light;
+
+    --aura-background-color-light: #690;
+    --aura-accent-color-light: #350;
+
+    --aura-background-color-dark: #580;
+    --aura-accent-color-dark: #350;
+
+    --aura-contrast-level: 0;
+
+    /* uncomment for no border around layout */
+    /*--aura-app-layout-inset: 0px;*/
+
+    vaadin-app-layout {
+        background: rgba(0, 0, 0, 0.15);
+    }
+}

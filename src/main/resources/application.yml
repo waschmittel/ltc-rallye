@@ -6,12 +6,8 @@ server:
 
 spring:
   jackson:
-    date-format: com.fasterxml.jackson.databind.util.StdDateFormat
     deserialization:
-      FAIL_ON_UNKNOWN_PROPERTIES: false
-      ADJUST_DATES_TO_CONTEXT_TIME_ZONE: false
-    serialization:
-      WRITE_BIGDECIMAL_AS_PLAIN: true
+      fail-on-unknown-properties: false
   jpa:
     open-in-view: false
     hibernate:

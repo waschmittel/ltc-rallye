@@ -8,9 +8,10 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import de.flubba.generated.i18n.I18n;
 import de.flubba.rallye.component.RunnersGrid;
 import de.flubba.rallye.entity.Runner;
+import de.flubba.rallye.views.ViewToolbar;
 
 abstract class ResultsViewDesign extends VerticalLayout {
-    private final HorizontalLayout toolbarLayout = new HorizontalLayout();
+    private final HorizontalLayout toolbarLayout = new ViewToolbar("Results");
 
     protected final Button refreshButton = new Button(I18n.RESULTS_REFRESH.get(), VaadinIcon.REFRESH.create());
     protected final Button calculateButton = new Button(I18n.RESULTS_CALCULATE.get(), VaadinIcon.TROPHY.create());

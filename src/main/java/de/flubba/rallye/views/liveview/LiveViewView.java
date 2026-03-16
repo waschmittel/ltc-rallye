@@ -15,7 +15,9 @@ import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.LinkedList;
 
-@PageTitle("Live View")
+import static de.flubba.rallye.Application.TITLE_SUFFIX;
+
+@PageTitle("Live View" + TITLE_SUFFIX)
 @Route(value = "Live-View", layout = MainLayout.class)
 @RequiredArgsConstructor
 public class LiveViewView extends LiveViewDesign {

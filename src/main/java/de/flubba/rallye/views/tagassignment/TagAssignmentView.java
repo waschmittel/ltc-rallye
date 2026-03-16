@@ -8,18 +8,15 @@ import de.flubba.rallye.entity.repository.TagAssignmentRepository;
 import de.flubba.rallye.views.MainLayout;
 import org.springframework.data.domain.PageRequest;
 
-@PageTitle("Tag Assignment")
+import static de.flubba.rallye.Application.TITLE_SUFFIX;
+
+@PageTitle("Tag Assignment" + TITLE_SUFFIX)
 @Route(value = "tag-assignment", layout = MainLayout.class)
 @Uses(Icon.class)
 public class TagAssignmentView extends TagAssignmentsViewDesign {
-    public static final String VIEW_NAME = "tags";
-
-    private final TagAssignmentRepository tagAssignmentRepository;
-
     public TagAssignmentView(TagAssignmentRepository tagAssignmentRepository) {
         super();
         tagAssignments.setItems(query -> tagAssignmentRepository.findAll(PageRequest.of(query.getPage(), query.getPageSize())).stream());
-        this.tagAssignmentRepository = tagAssignmentRepository;
     }
 
 }
