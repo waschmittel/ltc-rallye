@@ -37,7 +37,7 @@ vaadin:
     enable: true
 
 rallye:
-  shekel-to-euro-rate: 0.24
+  shekel-to-euro-rate: 0.28
   min-lap-duration: PT20S
 
 logging:
