@@ -23,6 +23,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @PWA(name = "LTC Rallye", shortName = "LTC Rallye", offlineResources = {})
 @Push
 public class Application extends SpringBootServletInitializer implements AppShellConfigurator {
+    public static final String TITLE_SUFFIX = " - LTC Rallye";
 
     static void main(String[] args) {
         SpringApplication.run(Application.class, args);

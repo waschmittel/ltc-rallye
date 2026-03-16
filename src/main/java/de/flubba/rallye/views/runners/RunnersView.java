@@ -29,8 +29,9 @@ import java.util.Optional;
 
 import static com.vaadin.flow.component.notification.Notification.Position.TOP_CENTER;
 import static com.vaadin.flow.component.notification.NotificationVariant.LUMO_ERROR;
+import static de.flubba.rallye.Application.TITLE_SUFFIX;
 
-@PageTitle("Runners")
+@PageTitle("Runners" + TITLE_SUFFIX)
 @Route(value = "runners", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 @Uses(Icon.class)

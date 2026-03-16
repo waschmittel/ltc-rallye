@@ -11,7 +11,9 @@ import de.flubba.rallye.entity.repository.RunnerRepository;
 import de.flubba.rallye.service.RaceResultsService;
 import de.flubba.rallye.views.MainLayout;
 
-@PageTitle("Results")
+import static de.flubba.rallye.Application.TITLE_SUFFIX;
+
+@PageTitle("Results" + TITLE_SUFFIX)
 @Route(value = "results", layout = MainLayout.class)
 public class ResultsView extends ResultsViewDesign {
     private final RunnerRepository runnerRepository;
