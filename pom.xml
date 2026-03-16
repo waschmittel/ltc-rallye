@@ -11,7 +11,7 @@
 
     <properties>
         <java.version>25</java.version>
-        <vaadin.version>25.0.6</vaadin.version>
+        <vaadin.version>25.0.7</vaadin.version>
     </properties>
 
     <parent>
@@ -124,6 +124,25 @@
     <build>
         <defaultGoal>spring-boot:run</defaultGoal>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.15.0</version>
+                <configuration>
+                    <release>${java.version}</release>
+                    <encoding>${encoding}</encoding>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>com.googlecode.maven-properties-enum-plugin</groupId>
                 <artifactId>maven-properties-enum-plugin</artifactId>
