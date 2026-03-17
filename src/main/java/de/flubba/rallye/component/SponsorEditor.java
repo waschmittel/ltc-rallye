@@ -34,11 +34,11 @@ public class SponsorEditor {
     }
 
     private Optional<List<Component>> bindFields(Binder<Sponsor> binder, Sponsor sponsor) {
-        TextField name = new TextField(I18n.SPONSOR_NAME.get());
+        var name = new TextField(I18n.SPONSOR_NAME.get());
         binder.forField(name).bind(Fields.name);
 
-        TextField perLapDonation = currencyTextField("€", I18n.SPONSOR_PERLAP.get());
-        TextField oneTimeDonation = currencyTextField("€", I18n.SPONSOR_ONETIME.get());
+        var perLapDonation = currencyTextField("€", I18n.SPONSOR_PERLAP.get());
+        var oneTimeDonation = currencyTextField("€", I18n.SPONSOR_ONETIME.get());
         perLapDonation.addValueChangeListener(e -> binder.getBinding(Fields.oneTimeDonation).ifPresent(Binding::validate));
         oneTimeDonation.addValueChangeListener(e -> binder.getBinding(Fields.perLapDonation).ifPresent(Binding::validate));
         binder.forField(perLapDonation)
@@ -54,10 +54,11 @@ public class SponsorEditor {
                 .withConverter(new LocaleIndependentMoneyConverter())
                 .bind(Fields.oneTimeDonation);
 
-        TextField perLapShekels = currencyTextField("₪", null);
+        var perLapShekels = currencyTextField("₪", null);
         addShekelConversion(perLapShekels, perLapDonation);
 
-        TextField oneTimeShekels = currencyTextField("₪", null);
+        var oneTimeShekels = currencyTextField("₪", null);
+        oneTimeShekels.setTooltipMarkdown(I18n.SPONSOR_CONVERSION_TOOLTIP.get());
         addShekelConversion(oneTimeShekels, oneTimeDonation);
 
         return Optional.of(List.of(name, perLapDonation, perLapShekels, oneTimeDonation, oneTimeShekels));
