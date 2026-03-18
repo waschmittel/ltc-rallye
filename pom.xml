@@ -209,6 +209,18 @@
                 <version>2.21.0</version>
                 <configuration>
                     <generateBackupPoms>false</generateBackupPoms>
+                    <ruleSet>
+                        <ignoreVersions>
+                            <ignoreVersion>
+                                <type>regex</type>
+                                <version>(.+-SNAPSHOT|.+-M\d|.+-RC\d)</version>
+                            </ignoreVersion>
+                            <ignoreVersion>
+                                <type>regex</type>
+                                <version>.+-(alpha|beta).+</version>
+                            </ignoreVersion>
+                        </ignoreVersions>
+                    </ruleSet>
                 </configuration>
             </plugin>
         </plugins>
