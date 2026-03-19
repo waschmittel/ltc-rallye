@@ -6,7 +6,7 @@ import de.flubba.rallye.entity.Sponsor;
 import de.flubba.rallye.entity.repository.LapRepository;
 import de.flubba.rallye.entity.repository.RunnerRepository;
 import de.flubba.rallye.entity.repository.SponsorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,17 +15,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class RaceResultsService {
     private final RunnerRepository runnerRepository;
     private final LapRepository lapRepository;
     private final SponsorRepository sponsorRepository;
-
-    @Autowired
-    public RaceResultsService(RunnerRepository runnerRepository, LapRepository lapRepository, SponsorRepository sponsorRepository) {
-        this.runnerRepository = runnerRepository;
-        this.lapRepository = lapRepository;
-        this.sponsorRepository = sponsorRepository;
-    }
 
     public void generateResults() {
         runnerRepository.findAll().forEach(runner -> {
