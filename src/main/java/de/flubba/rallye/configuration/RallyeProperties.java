@@ -21,4 +21,7 @@ public class RallyeProperties {
 
     @NotBlank
     String downloadFolder;
+
+    @NotBlank
+    String adminPassword;
 }

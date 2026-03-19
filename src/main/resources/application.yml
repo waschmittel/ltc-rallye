@@ -36,6 +36,7 @@ rallye:
   shekel-to-euro-rate: 0.28
   min-lap-duration: PT20S
   download-folder: ./tag-manager-downloads
+  admin-password: ltc
 
 logging:
   level:
