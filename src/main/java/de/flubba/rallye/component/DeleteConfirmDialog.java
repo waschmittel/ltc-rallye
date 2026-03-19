@@ -27,7 +27,7 @@ public class DeleteConfirmDialog {
      */
     public DeleteConfirmDialog(String question, String confirmCaption, String cancelCaption,
                                final ConfirmButtonHandler confirmButtonHandler, final CancelButtonHandler cancelButtonHandler) {
-        MessageBox messageBox = new MessageBox(QUESTION, question, DELETE, CANCEL);
+        MessageBox messageBox = new MessageBox(QUESTION, null, question, DELETE, CANCEL);
         messageBox.getButton(CANCEL).focus();
         messageBox.getButton(DELETE).setText(confirmCaption);
         messageBox.getButton(DELETE).addClickListener(event -> confirmButtonHandler.onConfirm());

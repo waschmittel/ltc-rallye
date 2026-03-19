@@ -53,20 +53,24 @@ public class MessageBox {
      * @param message the message to show
      * @param buttonIds the types of buttons that should be displayed
      */
-    public MessageBox(MessageType messageType, String message, ButtonId... buttonIds) {
+    public MessageBox(MessageType messageType, String headerTitle, String message, ButtonId... buttonIds) {
         HorizontalLayout messageLayout = new HorizontalLayout();
+        messageLayout.setPadding(true);
         Div iconLabel = new Div();
 
         messageLayout.add(iconLabel);
         messageLayout.add(new Span(message));
 
         VerticalLayout layout = new VerticalLayout();
+        layout.setPadding(false);
         layout.setDefaultHorizontalComponentAlignment(FlexComponent.Alignment.CENTER);
         layout.add(messageLayout);
         layout.add(buttonLayout);
 
-        buttonLayout.setSpacing(true);
+        buttonLayout.setWidthFull();
+        buttonLayout.setJustifyContentMode(FlexComponent.JustifyContentMode.END);
 
+        dialog.setHeaderTitle(headerTitle);
         dialog.add(layout);
         dialog.setModality(STRICT);
 
