@@ -1,6 +1,7 @@
 package de.flubba.rallye.configuration;
 
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -17,4 +18,7 @@ public class RallyeProperties {
 
     @NotNull
     Duration minLapDuration;
+
+    @NotBlank
+    String downloadFolder;
 }

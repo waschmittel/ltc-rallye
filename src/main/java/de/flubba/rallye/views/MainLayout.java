@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
+import de.flubba.rallye.views.filedownload.FileDownloadView;
 import de.flubba.rallye.views.liveview.LiveViewView;
 import de.flubba.rallye.views.results.ResultsView;
 import de.flubba.rallye.views.runners.RunnersView;
@@ -42,7 +43,8 @@ public class MainLayout extends AppLayout {
                 new SideNavItem("Runners", RunnersView.class, LineAwesomeIcon.RUNNING_SOLID.create()),
                 new SideNavItem("Results", ResultsView.class, LineAwesomeIcon.TROPHY_SOLID.create()),
                 new SideNavItem("Tag Assignment", TagAssignmentView.class, LineAwesomeIcon.BULLSEYE_SOLID.create()),
-                new SideNavItem("Live View", LiveViewView.class, LineAwesomeIcon.BULLHORN_SOLID.create())
+                new SideNavItem("Live View", LiveViewView.class, LineAwesomeIcon.BULLHORN_SOLID.create()),
+                new SideNavItem("Downloads", FileDownloadView.class, LineAwesomeIcon.DOWNLOAD_SOLID.create())
         );
         return nav;
     }
