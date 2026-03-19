@@ -2,6 +2,7 @@ package de.flubba.rallye.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,6 +19,7 @@ import lombok.experimental.FieldNameConstants;
 
 import java.math.BigDecimal;
 
+import static jakarta.persistence.EnumType.STRING;
 import static lombok.AccessLevel.PRIVATE;
 
 @Data
@@ -56,9 +58,11 @@ public class Runner {
     private BigDecimal donations;
 
     @NotNull(message = "{runner.gender.required}")
+    @Enumerated(STRING)
     private Gender gender;
 
     @NotNull(message = "{runner.country.required}")
+    @Enumerated(STRING)
     private Country country;
 
     private Integer numberOfSponsors;
