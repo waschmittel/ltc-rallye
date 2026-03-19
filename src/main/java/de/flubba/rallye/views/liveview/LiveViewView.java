@@ -37,7 +37,7 @@ public class LiveViewView extends LiveViewDesign {
         if (laps.size() > MAX_DISPLAYED_LAPS) {
             laps.removeLast();
         }
-        setItems(laps);
+        messageList.setItems(laps);
     }
 
     @Override
