@@ -10,7 +10,7 @@ abstract class TagAssignmentsViewDesign extends VerticalLayout {
 
     protected TagAssignmentsViewDesign() {
         tagAssignments.removeColumn(tagAssignments.getColumnByKey(TagAssignment.Fields.id));
-        tagAssignments.getColumnByKey(TagAssignment.Fields.runnerId).setWidth("100px");
+        tagAssignments.getColumnByKey(TagAssignment.Fields.runnerId).setFlexGrow(0);
         tagAssignments.setSortableColumns();
         add(new ViewToolbar("Tag Assignments"));
         addAndExpand(tagAssignments);
