@@ -5,6 +5,7 @@
 ```postgresql
 -- list of runners
 select name,
+       gender,
        number_of_laps_run,
        bonus_points,
        fastest,
