@@ -2,6 +2,8 @@
 
 **LTC Rallye** is a comprehensive web application for managing sponsor-based running rallies/races with real-time NFC/RFID lap tracking. Built with Vaadin (Java) and Spring Boot, it provides an end-to-end solution for organizing charity running events where sponsors donate money per lap completed by runners.
 
+[![Runners View](docs/runners_view_thumb.png)](docs/runners_view.png)
+
 ## What is it?
 
 LTC Rallye is designed for charity running events where:
@@ -98,6 +100,23 @@ The application integrates with NFC smartcard readers (tested with ACR122U) to a
 3. **Tag Manager Downloads**: Available from the Downloads view for Windows, macOS, and Linux
 
 **Note**: On Linux, the ACR122U reader requires driver installation. See the Tag Manager README for setup instructions.
+
+## Screenshots
+
+### Runners View
+[![Runners View](docs/runners_view_thumb.png)](docs/runners_view.png)
+
+### Results View
+[![Results View](docs/results_view_thumb.png)](docs/results_view.png)
+
+### Tag Assignments View
+[![Tag Assignments View](docs/tag_assignments_view_thumb.png)](docs/tag_assignments_view.png)
+
+### Live View
+[![Live View](docs/live_view_thumb.png)](docs/live_view.png)
+
+### Client Download View
+[![Client Download View](docs/client_download_view_thumb.png)](docs/client_download_view.png)
 
 ## Technology Stack
 
