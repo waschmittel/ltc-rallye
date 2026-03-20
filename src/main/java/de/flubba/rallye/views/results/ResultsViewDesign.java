@@ -13,7 +13,6 @@ import de.flubba.rallye.entity.Runner;
 import de.flubba.rallye.views.ViewToolbar;
 
 abstract class ResultsViewDesign extends VerticalLayout {
-    private final HorizontalLayout toolbarLayout = new ViewToolbar("Results");
 
     protected final Button refreshButton = new Button(I18n.RESULTS_REFRESH.get(), VaadinIcon.REFRESH.create());
     protected final Button calculateButton = new Button(I18n.RESULTS_CALCULATE.get(), VaadinIcon.TROPHY.create());
@@ -36,6 +35,7 @@ abstract class ResultsViewDesign extends VerticalLayout {
         exportSponsorsAnchor = new Anchor();
         exportSponsorsAnchor.add(exportSponsorsButton);
 
+        HorizontalLayout toolbarLayout = new ViewToolbar("Results");
         toolbarLayout.add(refreshButton, calculateButton, exportRunnersAnchor, exportSponsorsAnchor);
 
         runnersGrid.removeColumn(runnersGrid.getColumnByKey(Runner.Fields.roomNumber));

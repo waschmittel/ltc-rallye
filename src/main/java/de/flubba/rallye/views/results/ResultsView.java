@@ -41,11 +41,11 @@ public class ResultsView extends ResultsViewDesign {
 
     private void buildLayout() {
         EditDeleteButtonsProvider.addAsFirst(runnersGrid, new EditDeleteButtonsProvider<>(this::editRunner));
-        calculateButton.addClickListener(e -> {
+        calculateButton.addClickListener(_ -> {
             raceResultsService.generateResults();
             runnersGrid.refresh();
         });
-        refreshButton.addClickListener(e -> runnersGrid.refresh());
+        refreshButton.addClickListener(_ -> runnersGrid.refresh());
 
         exportRunnersAnchor.setHref(excelDownloadHandler("runners", excelExportService::exportRunnersToExcel));
         exportSponsorsAnchor.setHref(excelDownloadHandler("sponsors", excelExportService::exportSponsorsToExcel));
